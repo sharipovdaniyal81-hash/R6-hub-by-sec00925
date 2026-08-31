@@ -1,0 +1,2235 @@
+repeat task.wait() until game.Players.LocalPlayer
+
+local player = game.Players.LocalPlayer
+local TweenService = game:GetService("TweenService")
+
+local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+gui.Name = "R6Hub"
+gui.ResetOnSpawn = false
+
+local main = Instance.new("Frame", gui)
+main.Size = UDim2.new(0,0,0,0)
+main.Position = UDim2.new(0.5,0,0.5,0)
+main.AnchorPoint = Vector2.new(0.5,0.5)
+main.BackgroundColor3 = Color3.fromRGB(40,0,60)
+main.Active = true
+main.Draggable = true
+main.ClipsDescendants = true
+
+local stroke = Instance.new("UIStroke", main)
+stroke.Color = Color3.fromRGB(150,50,200)
+stroke.Thickness = 2
+
+local openTween = TweenService:Create(main, TweenInfo.new(3, Enum.EasingStyle.Quart), {Size = UDim2.new(0,520,0,320)})
+openTween:Play()
+
+local function click()
+	local s = Instance.new("Sound")
+	s.SoundId = "rbxassetid://120122213964836"
+	s.Volume = 100
+	s.PlayOnRemove = true
+	s.Parent = gui
+	s:Destroy()
+end
+
+local top = Instance.new("Frame", main)
+top.Size = UDim2.new(1,0,0,35)
+top.BackgroundColor3 = Color3.fromRGB(30,0,45)
+
+local title = Instance.new("TextLabel", top)
+title.Size = UDim2.new(1,-50,1,0)
+title.Position = UDim2.new(0,10,0,0)
+title.BackgroundTransparency = 1
+title.Text = "R6 Hub"
+title.TextColor3 = Color3.fromRGB(230,230,230)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 16
+title.TextXAlignment = Enum.TextXAlignment.Left
+
+local toggleBtn = Instance.new("TextButton", top)
+toggleBtn.Size = UDim2.new(0,25,0,25)
+toggleBtn.Position = UDim2.new(1,-30,0,5)
+toggleBtn.BackgroundColor3 = Color3.fromRGB(200,0,0)
+toggleBtn.Text = "X"
+toggleBtn.TextColor3 = Color3.fromRGB(255,255,255)
+toggleBtn.Font = Enum.Font.GothamBold
+toggleBtn.TextSize = 14
+toggleBtn.AutoButtonColor = false
+toggleBtn.BorderSizePixel = 0
+
+local isOpen = true
+
+toggleBtn.MouseButton1Click:Connect(function()
+	click()
+	if isOpen then
+		TweenService:Create(main, TweenInfo.new(0.5, Enum.EasingStyle.Quart), {Size = UDim2.new(0,520,0,35)}):Play()
+		toggleBtn.Text = "+"
+		isOpen = false
+	else
+		TweenService:Create(main, TweenInfo.new(0.5, Enum.EasingStyle.Quart), {Size = UDim2.new(0,520,0,320)}):Play()
+		toggleBtn.Text = "X"
+		isOpen = true
+	end
+end)
+
+local sidebar = Instance.new("Frame", main)
+sidebar.Size = UDim2.new(0,110,1,-35)
+sidebar.Position = UDim2.new(0,0,0,35)
+sidebar.BackgroundColor3 = Color3.fromRGB(25,0,40)
+
+local pages = Instance.new("Frame", main)
+pages.Size = UDim2.new(1,-110,1,-35)
+pages.Position = UDim2.new(0,110,0,35)
+pages.BackgroundTransparency = 1
+pages.ClipsDescendants = true
+
+local function tab(text,y)
+	local b = Instance.new("TextButton", sidebar)
+	b.Size = UDim2.new(1,-10,0,40)
+	b.Position = UDim2.new(0,5,0,y)
+	b.Text = text
+	b.BackgroundColor3 = Color3.fromRGB(70,0,100)
+	b.TextColor3 = Color3.fromRGB(255,255,255)
+	b.Font = Enum.Font.Gotham
+	b.TextSize = 13
+	b.MouseButton1Click:Connect(click)
+	return b
+end
+
+local homeBtn = tab("Home",5)
+local morphsBtn = tab("Morphs",50)
+local miscBtn = tab("Misc",95)
+local guiBtn = tab("GUI",140)
+
+local folder = Instance.new("Folder", pages)
+
+local function page()
+	local f = Instance.new("Frame", folder)
+	f.Size = UDim2.new(1,0,1,0)
+	f.BackgroundTransparency = 1
+	f.Visible = false
+	f.ClipsDescendants = true
+	return f
+end
+
+local home = page()
+local morphs = page()
+local misc = page()
+local guiPage = page()
+home.Visible = true
+
+local function switch(p)
+	for _,v in pairs(folder:GetChildren()) do v.Visible=false end
+	p.Visible = true
+end
+
+homeBtn.MouseButton1Click:Connect(function() switch(home) end)
+morphsBtn.MouseButton1Click:Connect(function() switch(morphs) end)
+miscBtn.MouseButton1Click:Connect(function() switch(misc) end)
+guiBtn.MouseButton1Click:Connect(function() switch(guiPage) end)
+
+local name = Instance.new("TextLabel", home)
+name.Size = UDim2.new(1,-20,0,25)
+name.Position = UDim2.new(0,10,0,10)
+name.BackgroundTransparency = 1
+name.Text = player.Name
+name.TextSize = 14
+name.TextColor3 = Color3.fromRGB(230,230,230)
+name.Font = Enum.Font.GothamBold
+name.TextXAlignment = Enum.TextXAlignment.Left
+
+local id = Instance.new("TextLabel", home)
+id.Size = UDim2.new(1,-20,0,20)
+id.Position = UDim2.new(0,10,0,35)
+id.BackgroundTransparency = 1
+id.Text = "ID: "..player.UserId
+id.TextSize = 13
+id.TextColor3 = Color3.fromRGB(180,180,180)
+id.Font = Enum.Font.Gotham
+id.TextXAlignment = Enum.TextXAlignment.Left
+
+local credit = Instance.new("TextLabel", home)
+credit.Size = UDim2.new(1,-10,0,20)
+credit.Position = UDim2.new(0,5,1,-44)
+credit.BackgroundTransparency = 1
+credit.Text = "by Sec00925"
+credit.TextSize = 12
+credit.TextColor3 = Color3.fromRGB(120,120,120)
+credit.Font = Enum.Font.Gotham
+
+local tiktok = Instance.new("TextLabel", home)
+tiktok.Size = UDim2.new(1,-10,0,20)
+tiktok.Position = UDim2.new(0,5,1,-22)
+tiktok.BackgroundTransparency = 1
+tiktok.Text = "Me on TikTok: Sec00925script"
+tiktok.TextSize = 12
+tiktok.TextColor3 = Color3.fromRGB(180,120,220)
+tiktok.Font = Enum.Font.Gotham
+
+local morphsContainer = Instance.new("Frame", morphs)
+morphsContainer.Size = UDim2.new(1,-20,1,-20)
+morphsContainer.Position = UDim2.new(0,10,0,10)
+morphsContainer.BackgroundColor3 = Color3.fromRGB(20,0,35)
+morphsContainer.ClipsDescendants = true
+
+local morphsLabel = Instance.new("TextLabel", morphsContainer)
+morphsLabel.Size = UDim2.new(1,0,0,30)
+morphsLabel.BackgroundTransparency = 1
+morphsLabel.Text = "Morphs"
+morphsLabel.TextColor3 = Color3.fromRGB(255,255,255)
+morphsLabel.Font = Enum.Font.GothamBold
+morphsLabel.TextSize = 16
+morphsLabel.TextXAlignment = Enum.TextXAlignment.Left
+morphsLabel.Position = UDim2.new(0,10,0,5)
+
+local morphsScroll = Instance.new("ScrollingFrame", morphsContainer)
+morphsScroll.Size = UDim2.new(1,0,1,-40)
+morphsScroll.Position = UDim2.new(0,0,0,35)
+morphsScroll.BackgroundTransparency = 1
+morphsScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+morphsScroll.ScrollBarThickness = 4
+
+local morphsGrid = Instance.new("UIGridLayout", morphsScroll)
+morphsGrid.CellSize = UDim2.new(0.9,0,0,30)
+morphsGrid.CellPadding = UDim2.new(0,5,0,5)
+morphsGrid.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+local function addMorphButton(name, url)
+	local btn = Instance.new("TextButton", morphsScroll)
+	btn.Size = UDim2.new(1,0,1,0)
+	btn.Text = name
+	btn.BackgroundColor3 = Color3.fromRGB(35,35,35)
+	btn.TextColor3 = Color3.fromRGB(230,230,230)
+	btn.Font = Enum.Font.Gotham
+	btn.TextSize = 13
+	btn.MouseButton1Click:Connect(function()
+		click()
+		loadstring(game:HttpGet(url))()
+	end)
+end
+
+addMorphButton("Terra God", "https://pastebin.com/raw/c8rm3KUT")
+addMorphButton("Shrike", "https://pastebin.com/raw/L9s88W5u")
+addMorphButton("Burning Hope", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Burning%20Hope")
+addMorphButton("Lost Hope Scythe", "https://pastebin.com/raw/UYM7Lx4n")
+addMorphButton("Sin Dragon", "https://raw.githubusercontent.com/gObl00x/My-Converts/refs/heads/main/Sin%20Dragon.lua")
+addMorphButton("Goner", "https://raw.githubusercontent.com/gObl00x/My-Converts/refs/heads/main/Goner.lua")
+addMorphButton("Internal war", "https://pastebin.com/raw/tiDrRmiz")
+addMorphButton("Blind Reaper", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/BLINDREAPER")
+addMorphButton("Chrono Sentinel", "https://raw.githubusercontent.com/Lock1213/Scripts/refs/heads/main/Chrono%20Sentinel%20(Converted%20With%20Music)")
+addMorphButton("Dual Ultima", "https://pastebin.com/raw/3QsB07Ba")
+addMorphButton("Comedic Chaos", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Comedy")
+addMorphButton("Road Rogue", "https://pastefy.app/9gxSdisY/raw")
+addMorphButton("God Slayer", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/God%20Eater")
+addMorphButton("Xester", "https://raw.githubusercontent.com/Icalock/Server/refs/heads/main/Xester%20FD.txt")
+addMorphButton("Ban Hammer", "https://pastebin.com/raw/xLHUcVjx")
+addMorphButton("The Last God", "https://pastebin.com/raw/TLWkKzPH")
+addMorphButton("Red S+", "https://pastebin.com/raw/bmKGtHQF")
+addMorphButton("Red Ultima", "https://pastebin.com/raw/njqct98T")
+addMorphButton("Black Dominus", "https://pastebin.com/raw/qAkxQx18")
+addMorphButton("Vereus", "https://rawscripts.net/raw/Universal-Script-Roblox-VEREUS-monster-script-3746")
+addMorphButton("Killbot", "https://pastebin.com/raw/8spCXuEU")
+addMorphButton("Killbot V2", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/KillbotV2")
+addMorphButton("Rebellion", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Pharoh")
+addMorphButton("Neptunian V", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/NepV")
+addMorphButton("Caducus", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/CADUCUS%20(FIXED)")
+addMorphButton("Ruin EX", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/RUIN%20EX")
+addMorphButton("Ender", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Ender")
+addMorphButton("Brick hamman", "https://rawscripts.net/raw/Universal-Script-Brick-Hamman-Converted-49804")
+addMorphButton("Cleetus", "https://rawscripts.net/raw/Universal-Script-Cleetus-Converted-77740")
+addMorphButton("Genkaada Omega Sword", "https://raw.githubusercontent.com/nicolasbarbosa323/grakkeda/refs/heads/main/Roblox%20Genkadda%20omega%20leaked.txt")
+addMorphButton("Devil Glove", "https://pastebin.com/raw/GZWtWL0y")
+addMorphButton("Chaotic God", "https://pastebin.com/raw/ygMBF5G6")
+addMorphButton("Green wings", "https://pastebin.com/raw/X3Y7adwk")
+addMorphButton("Blue Sickle", "https://pastebin.com/raw/Yk5xGGyD")
+addMorphButton("Legendary Sickle", "https://pastebin.com/raw/7qNpiSQs")
+addMorphButton("X sword", "https://pastebin.com/raw/6dw0wuc1")
+addMorphButton("Purple Sword", "https://pastebin.com/raw/kC0DdRS7")
+addMorphButton("Omni God", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Omni%20God")
+addMorphButton("Zenatic", "https://pastebin.com/raw/8WiaahB7")
+addMorphButton("Iron hand", "https://pastebin.com/raw/0HKHHPJV")
+addMorphButton("All Seeing Hand", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/hand")
+addMorphButton("Oculus", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Oculus")
+addMorphButton("Determination", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Determination")
+addMorphButton("Hacker X", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Hacker%20X")
+addMorphButton("Rainbow Glowe", "https://pastebin.com/raw/G9y0Nu2h")
+addMorphButton("Banisher", "https://pastebin.com/raw/nHN5eMQx")
+addMorphButton("White sickle", "https://pastebin.com/raw/xHaWXEqA")
+addMorphButton("Rainbow King", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Rainbow%20Banisher")
+addMorphButton("Spectrum Glitcher", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Spectrum%20Glitcher")
+addMorphButton("John doe", "https://drive.google.com/uc?export=download&id=1VCgc8Mgy8lueqXFjWqzSS8CNsqRmKvAb")
+
+local hacklordBtn = Instance.new("TextButton", morphsScroll)
+hacklordBtn.Size = UDim2.new(1,0,1,0)
+hacklordBtn.Text = "Hacklord"
+hacklordBtn.BackgroundColor3 = Color3.fromRGB(35,35,35)
+hacklordBtn.TextColor3 = Color3.fromRGB(230,230,230)
+hacklordBtn.Font = Enum.Font.Gotham
+hacklordBtn.TextSize = 13
+hacklordBtn.MouseButton1Click:Connect(function()
+	click()
+	local hacklordScript = [[
+-- Hacklord by Sec00925 (автономный скрипт)
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local Lighting = game:GetService("Lighting")
+local LocalPlayer = Players.LocalPlayer
+
+local hasAppliedHackLord = false
+
+local tStyle = {
+    [Enum.PoseEasingStyle.Linear] = Enum.EasingStyle.Linear,
+    [Enum.PoseEasingStyle.Bounce] = Enum.EasingStyle.Bounce,
+    [Enum.PoseEasingStyle.Cubic] = Enum.EasingStyle.Cubic,
+    [Enum.PoseEasingStyle.Elastic] = Enum.EasingStyle.Elastic,
+    [Enum.PoseEasingStyle.Constant] = Enum.EasingStyle.Linear,
+}
+local tDirection = {
+    [Enum.PoseEasingDirection.In] = Enum.EasingDirection.In,
+    [Enum.PoseEasingDirection.Out] = Enum.EasingDirection.Out,
+    [Enum.PoseEasingDirection.InOut] = Enum.EasingDirection.InOut,
+}
+
+local function BuildTweens(Model, KeyFrameSequence, SpeedMult)
+    SpeedMult = SpeedMult or 1
+    local frames = {}
+    for _, kf in ipairs(KeyFrameSequence:GetKeyframes()) do
+        table.insert(frames, {Time = kf.Time, Keyframe = kf})
+    end
+    table.sort(frames, function(a,b) return a.Time < b.Time end)
+    local tweens, motors, values, keyPoses = {}, {}, {}, {}
+    local function GetMotorFromPose(pose)
+        for _,v in pairs(Model:GetDescendants()) do
+            if v:IsA("Motor6D") and v.Part1 and v.Part1.Name == pose.Name and v.Part0 and v.Part0.Name == pose.Parent.Name then
+                return v
+            end
+        end
+    end
+    for i,frame in ipairs(frames) do
+        keyPoses[i] = {Time = frame.Time, Poses={}}
+        for _, pose in ipairs(frame.Keyframe:GetDescendants()) do
+            if pose:IsA("Pose") and pose.Weight > 0 then
+                local motor = motors[pose.Name] or GetMotorFromPose(pose)
+                if motor then
+                    motors[pose.Name] = motor
+                    if not values[pose.Name] then
+                        local cv = Instance.new("CFrameValue")
+                        cv.Value = motor.Transform
+                        cv.Parent = motor
+                        values[pose.Name] = cv
+                    end
+                    keyPoses[i].Poses[pose.Name] = {Motor=motor, Pose=pose}
+                end
+            end
+        end
+    end
+    if #keyPoses > 1 then
+        local last = {}
+        for i=1,#keyPoses-1 do
+            local k1, k2 = keyPoses[i], keyPoses[i+1]
+            local dur = (k2.Time - k1.Time) / SpeedMult
+            tweens[i] = {Time = dur, Tweens={}}
+            for n,d in pairs(k1.Poses) do last[n]=d end
+            for n,d in pairs(k2.Poses) do
+                if last[n] then
+                    local info = TweenInfo.new(dur, tStyle[d.Pose.EasingStyle], tDirection[d.Pose.EasingDirection])
+                    tweens[i].Tweens[n] = TweenService:Create(values[n], info, {Value=d.Pose.CFrame})
+                end
+            end
+        end
+    end
+    local totalDuration = 0
+    for _, segment in ipairs(tweens) do totalDuration = totalDuration + segment.Time end
+    return tweens, motors, values, totalDuration
+end
+
+local function PlayKeyframeSequence(Model, KeyFrameSequence, SpeedMult, looped, onFinished)
+    SpeedMult = SpeedMult or 1
+    local tweens, motors, values, totalDuration = BuildTweens(Model, KeyFrameSequence, SpeedMult)
+    local stopped = false
+    local hb
+    hb = RunService.Heartbeat:Connect(function()
+        if stopped then if hb then hb:Disconnect() end return end
+        for n,motor in pairs(motors) do motor.Transform = values[n].Value end
+    end)
+    local function loop()
+        repeat
+            for _, segment in ipairs(tweens) do
+                for _, tw in pairs(segment.Tweens) do tw:Play() end
+                task.wait(segment.Time)
+                if stopped then break end
+            end
+            if not looped and not stopped then
+                stopped = true
+                if onFinished then onFinished() end
+                break
+            end
+        until stopped
+    end
+    task.spawn(loop)
+    return {
+        stop = function()
+            stopped = true
+            if hb then hb:Disconnect() hb = nil end
+            for _,v in pairs(values) do if v then v:Destroy() end end
+        end,
+        getLength = function() return totalDuration end
+    }
+end
+
+local function getRelativeCFrame(item, referencePart)
+    if not referencePart or not item then return CFrame.new() end
+    if item:IsA("Attachment") then
+        return referencePart.CFrame:Inverse() * (item.Parent.CFrame * item.CFrame)
+    end
+    return referencePart.CFrame:Inverse() * item.CFrame
+end
+
+local function weldToCharacter(character, part, targetPart, relativeCFrame, useMotor6D, offset)
+    part.Anchored = false
+    part.CanCollide = false
+    local finalCFrame = (relativeCFrame or CFrame.new()) * (offset or CFrame.new())
+    if useMotor6D then
+        local motor = Instance.new("Motor6D")
+        motor.Part0 = targetPart
+        motor.Part1 = part
+        motor.C0 = finalCFrame
+        motor.C1 = CFrame.new()
+        motor.Parent = character
+    else
+        local weld = Instance.new("Weld")
+        weld.Part0 = targetPart
+        weld.Part1 = part
+        weld.C0 = finalCFrame
+        weld.C1 = CFrame.new()
+        weld.Parent = character
+    end
+    part.Parent = character
+end
+
+local function moveAttachmentToPlayerHead(character, attachment, hackLordHead)
+    if not attachment or not hackLordHead then return end
+    local relativeCFrame = getRelativeCFrame(attachment, hackLordHead)
+    attachment.CFrame = relativeCFrame
+    attachment.Parent = character.Head
+end
+
+local function createSafeFolder()
+    local safeFolder = LocalPlayer.PlayerScripts:FindFirstChild("SavedKeyframes")
+    if not safeFolder then
+        safeFolder = Instance.new("Folder")
+        safeFolder.Name = "SavedKeyframes"
+        safeFolder.Parent = LocalPlayer.PlayerScripts
+    end
+    return safeFolder
+end
+
+local function CloneMe(char)
+    if not char then return nil end
+    char.Archivable = true
+    local clone = char:Clone()
+    char.Archivable = false
+    return clone
+end
+
+local function setupCharacter(character)
+    if hasAppliedHackLord then return end
+    hasAppliedHackLord = true
+    task.wait(1.5)
+
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if not humanoid then
+        task.wait(1)
+        humanoid = character:FindFirstChildOfClass("Humanoid")
+        if not humanoid then
+            return
+        end
+    end
+
+    local animator = humanoid:FindFirstChildOfClass("Animator")
+    if animator then animator:Destroy() end
+
+    for _, child in ipairs(character:GetChildren()) do
+        if child:IsA("Accessory") then child:Destroy() end
+    end
+    for _, child in ipairs(humanoid:GetChildren()) do
+        if child:IsA("Shirt") or child:IsA("Pants") or child:IsA("TShirt") then
+            child:Destroy()
+        end
+    end
+    for _, child in ipairs(character:GetChildren()) do
+        if child:IsA("Shirt") or child:IsA("Pants") or child:IsA("TShirt") or child:IsA("Accessory") then
+            child:Destroy()
+        end
+    end
+    for _, child in ipairs(character:GetDescendants()) do
+        if child:IsA("Shirt") or child:IsA("Pants") or child:IsA("TShirt") or child:IsA("Accessory") then
+            child:Destroy()
+        end
+    end
+
+    local bodyPartNames = {
+        "Head", "Torso", "Left Arm", "Right Arm", "Left Leg", "Right Leg",
+        "UpperTorso", "LowerTorso", "LeftUpperArm", "LeftLowerArm",
+        "RightUpperArm", "RightLowerArm", "LeftUpperLeg", "LeftLowerLeg",
+        "RightUpperLeg", "RightLowerLeg", "LeftFoot", "RightFoot"
+    }
+    for _, part in ipairs(character:GetDescendants()) do
+        if part:IsA("BasePart") and part ~= character:FindFirstChild("HumanoidRootPart") then
+            local isBody = false
+            for _, name in ipairs(bodyPartNames) do
+                if part.Name == name then isBody = true break end
+            end
+            if isBody then
+                local isTorso = (part.Name == "Torso" or part.Name == "UpperTorso" or part.Name == "LowerTorso")
+                part.Color = isTorso and Color3.fromRGB(50, 150, 50) or Color3.new(0,0,0)
+                part.Material = Enum.Material.SmoothPlastic
+                if part.Name == "Head" then
+                else
+                    for _, child in ipairs(part:GetChildren()) do
+                        if child:IsA("SpecialMesh") then child:Destroy() end
+                    end
+                    part.Shape = Enum.PartType.Block
+                end
+            end
+        end
+    end
+
+    local success, model = pcall(function() return game:GetObjects("rbxassetid://102473641596712")[1] end)
+    if success and model then
+        local hackLord = model:FindFirstChild("HackLord")
+        if hackLord then
+            local hackLordHead = hackLord:FindFirstChild("Head")
+            local referencePart = hackLord.PrimaryPart
+            if not referencePart then
+                for _, p in ipairs(hackLord:GetDescendants()) do
+                    if p:IsA("BasePart") then referencePart = p break end
+                end
+            end
+            if referencePart then
+                local components = {
+                    ExtraModels = hackLord:FindFirstChild("ExtraModels"),
+                    Coffin = hackLord:FindFirstChild("Coffin"),
+                    ErlkingCoffinChains = hackLord:FindFirstChild("ErlkingCoffinChains"),
+                    HaxxedCrown = hackLord:FindFirstChild("Haxxed Crown")
+                }
+                for name, component in pairs(components) do
+                    if component then
+                        if component:IsA("Model") then
+                            for _, part in ipairs(component:GetDescendants()) do
+                                if part:IsA("BasePart") then
+                                    local relCF = getRelativeCFrame(part, referencePart)
+                                    weldToCharacter(character, part, character.HumanoidRootPart, relCF, true)
+                                end
+                            end
+                        elseif component:IsA("BasePart") then
+                            local relCF = getRelativeCFrame(component, referencePart)
+                            if name == "ErlkingCoffinChains" then
+                                local torso = character:FindFirstChild("Torso") or character:FindFirstChild("UpperTorso")
+                                if torso then weldToCharacter(character, component, torso, relCF, false)
+                                else weldToCharacter(character, component, character.HumanoidRootPart, relCF, false) end
+                            elseif name == "HaxxedCrown" then
+                                weldToCharacter(character, component, character.Head, relCF, false, CFrame.new(0, -1.5, 0))
+                            else
+                                weldToCharacter(character, component, character.HumanoidRootPart, relCF, true)
+                            end
+                        end
+                    end
+                end
+                if hackLordHead then
+                    for _, att in ipairs(hackLordHead:GetChildren()) do
+                        if att:IsA("Attachment") then moveAttachmentToPlayerHead(character, att, hackLordHead) end
+                    end
+                end
+                local animSaves = hackLord:FindFirstChild("AnimSaves")
+                if animSaves then
+                    local safeFolder = createSafeFolder()
+                    for _, anim in ipairs(animSaves:GetChildren()) do
+                        if anim:IsA("KeyframeSequence") then
+                            local clone = anim:Clone()
+                            clone.Parent = safeFolder
+                        end
+                    end
+                end
+            end
+        end
+        model:Destroy()
+    end
+
+    local savedKeyframes = LocalPlayer.PlayerScripts:FindFirstChild("SavedKeyframes")
+    if not savedKeyframes then
+        return
+    end
+
+    local idleAnim = savedKeyframes:FindFirstChild("Idle")
+    local walkAnim = savedKeyframes:FindFirstChild("Walk")
+    local runAnim = savedKeyframes:FindFirstChild("Run")
+    local executionAnim = savedKeyframes:FindFirstChild("Execution")
+    local executionVictimAnim = savedKeyframes:FindFirstChild("ExecutionVictim")
+    local slashKeyframe = savedKeyframes:FindFirstChild("Slash")
+    local massInfectionKeyframe = savedKeyframes:FindFirstChild("Mass Infection")
+    local entaglementKeyframe = savedKeyframes:FindFirstChild("Entaglement")
+
+    if not (idleAnim and walkAnim and runAnim and slashKeyframe and massInfectionKeyframe and entaglementKeyframe) then
+        return
+    end
+
+    local currentAnimObj = nil
+    local isRunning = false
+    local connections = {}
+    local footstepCoroutine = nil
+    local isPlayingAbility = false
+    local abilityDebounces = {}
+
+    local function playAnimation(anim, speedMult, looped, onFinish)
+        if currentAnimObj then
+            currentAnimObj.stop()
+            currentAnimObj = nil
+        end
+        if anim then
+            currentAnimObj = PlayKeyframeSequence(character, anim, speedMult or 2, looped, onFinish)
+        end
+    end
+
+    local sound1 = Instance.new("Sound", character.HumanoidRootPart)
+    sound1.SoundId = "rbxassetid://131164918216963"
+    local sound2 = Instance.new("Sound", character.HumanoidRootPart)
+    sound2.SoundId = "rbxassetid://87336115451799"
+    local currentSound = 1
+    local function playFootstep()
+        (currentSound == 1 and sound1 or sound2):Play()
+        currentSound = 3 - currentSound
+    end
+    function startFootsteps()
+        if footstepCoroutine then coroutine.close(footstepCoroutine) end
+        footstepCoroutine = coroutine.create(function()
+            while humanoid and humanoid.MoveDirection.Magnitude > 0 and humanoid.WalkSpeed > 2 and not isPlayingAbility do
+                playFootstep()
+                task.wait(isRunning and 0.5 or 0.7)
+            end
+        end)
+        coroutine.resume(footstepCoroutine)
+    end
+    function stopFootsteps()
+        if footstepCoroutine then coroutine.close(footstepCoroutine) footstepCoroutine = nil end
+    end
+
+    local screenGui = Instance.new("ScreenGui", LocalPlayer.PlayerGui)
+    screenGui.Name = "HackLordUI"
+    screenGui.ResetOnSpawn = false
+    screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    screenGui.DisplayOrder = 999
+
+    local toggleButton = Instance.new("ImageButton", screenGui)
+    toggleButton.Size = UDim2.new(0, 100, 0, 100)
+    toggleButton.Position = UDim2.new(0, 20, 1, -120)
+    toggleButton.BackgroundTransparency = 1
+    toggleButton.Image = "rbxassetid://132640025048316"
+    toggleButton.ZIndex = 10
+
+    local abilities = {
+        ["Entaglement"] = {
+            keyframe = entaglementKeyframe,
+            cooldown = 7,
+            extraWait = 0.5,
+            sound = "rbxassetid://85739345749675",
+            image = "rbxassetid://119069138923680",
+            extraLogic = nil
+        },
+        ["Mass Infection"] = {
+            keyframe = massInfectionKeyframe,
+            cooldown = 7,
+            extraWait = 1,
+            sound = "rbxassetid://108321828055199",
+            image = "rbxassetid://112065267803856",
+            extraLogic = function()
+                task.spawn(function()
+                    local hrp = character:FindFirstChild("HumanoidRootPart")
+                    if hrp then
+                        local proj = Instance.new("MeshPart")
+                        proj.MeshId = "rbxassetid://2836527412"
+                        proj.Color = Color3.new(0, 1, 0)
+                        proj.Size = Vector3.new(1, 1, 1)
+                        proj.CFrame = hrp.CFrame * CFrame.new(0, 0, -3)
+                        proj.Anchored = true
+                        proj.CanCollide = false
+                        proj.Parent = Workspace
+                        local moveConn = RunService.Heartbeat:Connect(function(dt)
+                            if proj and proj.Parent then
+                                proj.CFrame = proj.CFrame * CFrame.new(0, 0, -50 * dt)
+                            end
+                        end)
+                        task.delay(6, function()
+                            if moveConn then moveConn:Disconnect() end
+                            if proj and proj.Parent then proj:Destroy() end
+                        end)
+                    end
+                end)
+            end
+        },
+        ["Slash"] = {
+            keyframe = slashKeyframe,
+            cooldown = 2,
+            extraWait = 0.5,
+            sound = "rbxassetid://98622759453637",
+            image = "rbxassetid://120590195585579",
+            extraLogic = function()
+                task.spawn(function()
+                    local hitbox = Instance.new("Part")
+                    hitbox.Size = Vector3.new(3, 3, 5)
+                    hitbox.Transparency = 1
+                    hitbox.CanCollide = false
+                    hitbox.CFrame = character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -3)
+                    hitbox.Parent = Workspace
+                    local weld = Instance.new("WeldConstraint")
+                    weld.Part0 = character.HumanoidRootPart
+                    weld.Part1 = hitbox
+                    weld.Parent = hitbox
+                    local conn
+                    conn = hitbox.Touched:Connect(function(hit)
+                        if not hit or not hit.Parent then return end
+                        if hit:IsDescendantOf(character) then return end
+                        local targetChar = hit:FindFirstAncestorWhichIsA("Model")
+                        if not targetChar then return end
+                        local targetHum = targetChar:FindFirstChildOfClass("Humanoid")
+                        if not targetHum then return end
+                        local targetPlayer = Players:GetPlayerFromCharacter(targetChar)
+                        if not targetPlayer then return end
+                        local dmg = 20
+                        if targetHum.Health - dmg <= 0 then
+                            targetHum.Health = 1
+                            local charClone = CloneMe(targetChar)
+                            if charClone then
+                                charClone.Parent = Workspace
+                                local cloneHRP = charClone:FindFirstChild("HumanoidRootPart")
+                                if cloneHRP then
+                                    cloneHRP.CFrame = character.HumanoidRootPart.CFrame
+                                    local cloneWeld = Instance.new("WeldConstraint")
+                                    cloneWeld.Part0 = character.HumanoidRootPart
+                                    cloneWeld.Part1 = cloneHRP
+                                    cloneWeld.Parent = cloneHRP
+                                    PlayKeyframeSequence(character, executionAnim, 2, false, function()
+                                        if charClone and charClone.Parent then charClone:Destroy() end
+                                    end)
+                                    if executionVictimAnim then
+                                        PlayKeyframeSequence(charClone, executionVictimAnim, 2, false, function()
+                                            if charClone and charClone.Parent then charClone:Destroy() end
+                                        end)
+                                    end
+                                    targetHum:TakeDamage(dmg)
+                                    targetHum.Health = targetHum.MaxHealth
+                                end
+                            end
+                            if conn then conn:Disconnect() end
+                            if hitbox and hitbox.Parent then hitbox:Destroy() end
+                        else
+                            targetHum:TakeDamage(dmg)
+                            if conn then conn:Disconnect() end
+                            if hitbox and hitbox.Parent then hitbox:Destroy() end
+                        end
+                    end)
+                    task.delay(2, function()
+                        if conn then conn:Disconnect() end
+                        if hitbox and hitbox.Parent then hitbox:Destroy() end
+                    end)
+                end)
+            end
+        }
+    }
+
+    local abilityOrder = {"Entaglement", "Mass Infection", "Slash"}
+    local buttonYOffsets = {-400, -300, -200}
+
+    for i, name in ipairs(abilityOrder) do
+        local data = abilities[name]
+        if data then
+            local yOffset = buttonYOffsets[i]
+            local btn = Instance.new("ImageButton", screenGui)
+            btn.Size = UDim2.new(0, 90, 0, 90)
+            btn.Position = UDim2.new(1, -100, 1, yOffset)
+            btn.BackgroundTransparency = 1
+            btn.Image = data.image
+            btn.ZIndex = 10
+            local corner = Instance.new("UICorner", btn)
+            corner.CornerRadius = UDim.new(1, 0)
+
+            abilityDebounces[name] = false
+
+            connections[name] = btn.MouseButton1Click:Connect(function()
+                if isPlayingAbility or abilityDebounces[name] then return end
+                isPlayingAbility = true
+                abilityDebounces[name] = true
+
+                btn.ImageTransparency = 0.5
+                task.delay(data.cooldown, function()
+                    abilityDebounces[name] = false
+                    btn.ImageTransparency = 0
+                end)
+
+                humanoid.WalkSpeed = 2
+                stopFootsteps()
+                if currentAnimObj then currentAnimObj.stop() currentAnimObj = nil end
+
+                PlayKeyframeSequence(character, data.keyframe, 2, false)
+                if data.sound then
+                    local s = Instance.new("Sound", character.HumanoidRootPart)
+                    s.SoundId = data.sound
+                    s:Play()
+                    s.Ended:Connect(function() s:Destroy() end)
+                end
+                if data.extraLogic then data.extraLogic() end
+
+                local length = 0
+                local ok, obj = pcall(function() return PlayKeyframeSequence(character, data.keyframe, 2, false) end)
+                if ok and obj and obj.getLength then
+                    length = obj.getLength()
+                    obj.stop()
+                end
+                task.wait(length + (data.extraWait or 0))
+
+                isPlayingAbility = false
+                humanoid.WalkSpeed = isRunning and 28 or 16
+                if humanoid.MoveDirection.Magnitude > 0 then
+                    playAnimation(isRunning and runAnim or walkAnim, 2, true)
+                    startFootsteps()
+                else
+                    playAnimation(idleAnim, 2, true)
+                end
+            end)
+        end
+    end
+
+    local lastMagnitude = 0
+    connections.move = RunService.Heartbeat:Connect(function()
+        if not humanoid or not character.Parent or isPlayingAbility then return end
+        local magnitude = humanoid.MoveDirection.Magnitude
+        if magnitude > 0 and lastMagnitude == 0 and humanoid.WalkSpeed > 2 then
+            startFootsteps()
+            playAnimation(isRunning and runAnim or walkAnim, 2, true)
+        elseif magnitude == 0 and lastMagnitude > 0 then
+            stopFootsteps()
+            playAnimation(idleAnim, 2, true)
+        end
+        lastMagnitude = magnitude
+    end)
+
+    connections.cleanup = character.AncestryChanged:Connect(function()
+        if not character.Parent then
+            for _, conn in pairs(connections) do
+                if conn and typeof(conn) == "RBXScriptConnection" then conn:Disconnect() end
+            end
+            stopFootsteps()
+            if screenGui and screenGui.Parent then screenGui:Destroy() end
+        end
+    end)
+
+    local function toggleRunState()
+        isRunning = not isRunning
+        humanoid.WalkSpeed = isRunning and 28 or 16
+        if humanoid.MoveDirection.Magnitude > 0 and not isPlayingAbility then
+            playAnimation(isRunning and runAnim or walkAnim, 2, true)
+        end
+    end
+    connections.toggle = toggleButton.MouseButton1Click:Connect(toggleRunState)
+
+    humanoid.WalkSpeed = 16
+    playAnimation(idleAnim, 2, true)
+end
+
+local function onCharacterAdded(character)
+    if not hasAppliedHackLord then
+        task.wait(0.5)
+        setupCharacter(character)
+    end
+end
+
+LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
+if LocalPlayer.Character then
+    onCharacterAdded(LocalPlayer.Character)
+end
+]]
+	loadstring(hacklordScript)()
+end)
+
+local miscContainer = Instance.new("Frame", misc)
+miscContainer.Size = UDim2.new(1,-20,1,-20)
+miscContainer.Position = UDim2.new(0,10,0,10)
+miscContainer.BackgroundColor3 = Color3.fromRGB(20,0,35)
+miscContainer.ClipsDescendants = true
+
+local miscLabel = Instance.new("TextLabel", miscContainer)
+miscLabel.Size = UDim2.new(1,0,0,30)
+miscLabel.BackgroundTransparency = 1
+miscLabel.Text = "Misc"
+miscLabel.TextColor3 = Color3.fromRGB(255,255,255)
+miscLabel.Font = Enum.Font.GothamBold
+miscLabel.TextSize = 16
+miscLabel.TextXAlignment = Enum.TextXAlignment.Left
+miscLabel.Position = UDim2.new(0,10,0,5)
+
+local miscScroll = Instance.new("ScrollingFrame", miscContainer)
+miscScroll.Size = UDim2.new(1,0,1,-40)
+miscScroll.Position = UDim2.new(0,0,0,35)
+miscScroll.BackgroundTransparency = 1
+miscScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+miscScroll.ScrollBarThickness = 4
+
+local miscGrid = Instance.new("UIGridLayout", miscScroll)
+miscGrid.CellSize = UDim2.new(0.9,0,0,30)
+miscGrid.CellPadding = UDim2.new(0,5,0,5)
+miscGrid.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+local function addMiscButton(name, url)
+	local btn = Instance.new("TextButton", miscScroll)
+	btn.Size = UDim2.new(1,0,1,0)
+	btn.Text = name
+	btn.BackgroundColor3 = Color3.fromRGB(35,35,35)
+	btn.TextColor3 = Color3.fromRGB(230,230,230)
+	btn.Font = Enum.Font.Gotham
+	btn.TextSize = 13
+	btn.MouseButton1Click:Connect(function()
+		click()
+		loadstring(game:HttpGet(url))()
+	end)
+end
+
+addMiscButton("Keyboard", "https://raw.githubusercontent.com/Xxtan31/Ata/main/deltakeyboardcrack.txt")
+addMiscButton("R6", "https://raw.githubusercontent.com/LeathalMurd/Roblox-R15-To-R6/refs/heads/main/Converter.lua")
+
+local guiContainer = Instance.new("Frame", guiPage)
+guiContainer.Size = UDim2.new(1,-20,1,-20)
+guiContainer.Position = UDim2.new(0,10,0,10)
+guiContainer.BackgroundColor3 = Color3.fromRGB(20,0,35)
+guiContainer.ClipsDescendants = true
+
+local guiLabel = Instance.new("TextLabel", guiContainer)
+guiLabel.Size = UDim2.new(1,0,0,30)
+guiLabel.BackgroundTransparency = 1
+guiLabel.Text = "GUI"
+guiLabel.TextColor3 = Color3.fromRGB(255,255,255)
+guiLabel.Font = Enum.Font.GothamBold
+guiLabel.TextSize = 16
+guiLabel.TextXAlignment = Enum.TextXAlignment.Left
+guiLabel.Position = UDim2.new(0,10,0,5)
+
+local guiScroll = Instance.new("ScrollingFrame", guiContainer)
+guiScroll.Size = UDim2.new(1,0,1,-40)
+guiScroll.Position = UDim2.new(0,0,0,35)
+guiScroll.BackgroundTransparency = 1
+guiScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+guiScroll.ScrollBarThickness = 4
+
+local guiGrid = Instance.new("UIGridLayout", guiScroll)
+guiGrid.CellSize = UDim2.new(0.9,0,0,30)
+guiGrid.CellPadding = UDim2.new(0,5,0,5)
+guiGrid.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+local function addGuiButton(name, url)
+	local btn = Instance.new("TextButton", guiScroll)
+	btn.Size = UDim2.new(1,0,1,0)
+	btn.Text = name
+	btn.BackgroundColor3 = Color3.fromRGB(35,35,35)
+	btn.TextColor3 = Color3.fromRGB(230,230,230)
+	btn.Font = Enum.Font.Gotham
+	btn.TextSize = 13
+	btn.MouseButton1Click:Connect(function()
+		click()
+		loadstring(game:HttpGet(url))()
+	end)
+end
+
+addGuiButton("Fly GUI", "https://raw.githubusercontent.com/makkurokurosukescript/VFly-gui/refs/heads/main/VFly%20gui")
+addGuiButton("NPS Spawner", "https://rawscripts.net/raw/Universal-Script-NPC-S*er-201877")
+
+local function tweenColor(object, color1, color2, duration)
+	while true do
+		TweenService:Create(object, TweenInfo.new(duration, Enum.EasingStyle.Linear), {BackgroundColor3 = color2}):Play()
+		task.wait(duration)
+		TweenService:Create(object, TweenInfo.new(duration, Enum.EasingStyle.Linear), {BackgroundColor3 = color1}):Play()
+		task.wait(duration)
+	end
+end
+
+local darkPurple = Color3.fromRGB(40,0,60)
+local lightPurple = Color3.fromRGB(80,20,120)
+local darkSide = Color3.fromRGB(25,0,40)
+local lightSide = Color3.fromRGB(60,15,90)
+
+local duration = 6.67
+
+task.spawn(function() tweenColor(main, darkPurple, lightPurple, duration) end)
+task.spawn(function() tweenColor(sidebar, darkSide, lightSide, duration) end)
+
+local strokeColor1 = Color3.fromRGB(150,50,200)
+local strokeColor2 = Color3.fromRGB(200,100,255)
+task.spawn(function()
+	while true do
+		TweenService:Create(stroke, TweenInfo.new(duration, Enum.EasingStyle.Linear), {Color = strokeColor2}):Play()
+		task.wait(duration)
+		TweenService:Create(stroke, TweenInfo.new(duration, Enum.EasingStyle.Linear), {Color = strokeColor1}):Play()
+		task.wait(duration)
+	end
+end)AYERSOUNDS)], HIT, 10, 1, false)
+									ApplyDamage(HIT.Parent:FindFirstChildOfClass("Humanoid"), 99)
+									CreateFlyingDebree(HIT, CF(POS), 7, VT(0.1, 0.1, 0.1), 5, 35, true)
+								end
+							elseif HIT.Anchored == true then
+								CreateFlyingDebree(HIT, CF(POS), 7, VT(0.2, 0.2, 0.2), 5, 35, true)
+							end
+						end
+						SHAKECAM(GUNPOS, 8, 5, 3)
+						SHAKECAM(POS, 10, 6, 6)
+						WACKYEFFECT({
+							Time = 6,
+							EffectType = "Block",
+							Size = VT(2, 2, 2),
+							Size2 = VT(4, 4, 4),
+							Transparency = 0,
+							Transparency2 = 1,
+							CFrame = CF(GUNPOS),
+							MoveToPos = nil,
+							RotationX = 0,
+							RotationY = 0,
+							RotationZ = 0,
+							Material = "Neon",
+							Color = C3(1, 1, 0),
+							SoundID = 213603013,
+							SoundPitch = 0.9,
+							SoundVolume = 10
+						})
+						WACKYEFFECT({
+							Time = 6,
+							EffectType = "Box",
+							Size = VT(1.6, 1.6, DISTANCE),
+							Size2 = VT(0, 0, DISTANCE),
+							Transparency = 0,
+							Transparency2 = 1,
+							CFrame = CF(GUNPOS, POS) * CF(0, 0, -DISTANCE / 2),
+							MoveToPos = nil,
+							RotationX = 0,
+							RotationY = 0,
+							RotationZ = 0,
+							Material = "Neon",
+							Color = C3(1, 1, 0),
+							SoundID = nil,
+							SoundPitch = nil,
+							SoundVolume = nil
+						})
+						for i = 0, 0.3, 0.1 / Animation_Speed do
+							Swait()
+							RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, 0 + 0.05 * SIZE * COS(SINE / 24)) * ANGLES(RAD(0), RAD(0), RAD(35)), 1 / Animation_Speed)
+							Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(15 - 5 * COS(SINE / 24)), RAD(-5), RAD(-25)), 1 / Animation_Speed)
+							RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.35 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), -0.5 * SIZE) * ANGLES(RAD(100), RAD(0), RAD(25)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+							LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), 0 * SIZE) * ANGLES(RAD(0), RAD(0), RAD(-15)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+							RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 1 / Animation_Speed)
+							LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(-45), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+						end
+						for i = 0, 0.5, 0.1 / Animation_Speed do
+							Swait()
+							RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, 0 + 0.05 * SIZE * COS(SINE / 24)) * ANGLES(RAD(0), RAD(0), RAD(35)), 1 / Animation_Speed)
+							Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(15 - 5 * COS(SINE / 24)), RAD(-5), RAD(-25)), 1 / Animation_Speed)
+							RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.35 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), -0.5 * SIZE) * ANGLES(RAD(80), RAD(0), RAD(25)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+							LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), 0 * SIZE) * ANGLES(RAD(0), RAD(0), RAD(-15)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+							RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 1 / Animation_Speed)
+							LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(-45), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+						end
+					until HOLD == false
+					SHOOTING = false
+				end
+			end)
+			repeat
+				Swait()
+				if SHOOTING == false then
+					TIMER = TIMER - 1
+					if TIMER <= 0 then
+						FIRING = false
+					end
+					RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, 0 + 0.05 * SIZE * COS(SINE / 24)) * ANGLES(RAD(0), RAD(0), RAD(35)), 1 / Animation_Speed)
+					Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(15 - 5 * COS(SINE / 24)), RAD(-5), RAD(-25)), 1 / Animation_Speed)
+					RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.35 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), -0.5 * SIZE) * ANGLES(RAD(80), RAD(0), RAD(30)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+					LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), 0 * SIZE) * ANGLES(RAD(0), RAD(0), RAD(-15)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+					RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 1 / Animation_Speed)
+					LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(-45), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+				end
+			until FIRING == false and SHOOTING == false
+			MOUSE:Disconnect()
+		end
+	end
+	ATTACK = false
+	Rooted = false
+end
+function EquipGun()
+	ATTACK = true
+	Rooted = false
+	if EQUIPPED == false then
+		Chatter("Let's play dirty.", 0)
+		for i = 0, 0.3, 0.1 / Animation_Speed do
+			Swait()
+			RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, 0 + 0.05 * SIZE * COS(SINE / 24)) * ANGLES(RAD(0), RAD(0), RAD(15)), 1 / Animation_Speed)
+			Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(25 - 5 * COS(SINE / 24)), RAD(-5), RAD(-5)), 1 / Animation_Speed)
+			RightShoulder.C0 = Clerp(RightShoulder.C0, CF(0.4 * SIZE, 0.35 * SIZE - 0.05 * SIZE * SIN(SINE / 24), -0.5 * SIZE) * ANGLES(RAD(15), RAD(0), RAD(-75)) * ANGLES(RAD(0), RAD(90), RAD(0)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+			LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), 0.2 * SIZE) * ANGLES(RAD(-15), RAD(0), RAD(-15)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+			RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(65), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 1 / Animation_Speed)
+			LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(-75), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+		end
+		HELDGUN = FAKEGUN:Clone()
+		HELDGUN.Parent = Character
+		GUNWELD = CreateWeldOrSnapOrMotor("Weld", RightArm, RightArm, HELDGUN, CF(0.3 * SIZE, -1.5 * SIZE, 0.1 * SIZE) * ANGLES(RAD(-90), RAD(0), RAD(-90)), CF(0, 0, 0))
+		FAKEGUN.Transparency = 1
+		CreateSound(1498950813, HELDGUN, 6, 1, false)
+		for i = 0, 0.3, 0.1 / Animation_Speed do
+			Swait()
+			RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, 0 + 0.05 * SIZE * COS(SINE / 24)) * ANGLES(RAD(0), RAD(0), RAD(15)), 1 / Animation_Speed)
+			Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(25 - 5 * COS(SINE / 24)), RAD(-5), RAD(-5)), 1 / Animation_Speed)
+			RightShoulder.C0 = Clerp(RightShoulder.C0, CF(0.5 * SIZE, 0.45 * SIZE - 0.05 * SIZE * SIN(SINE / 24), -0.5 * SIZE) * ANGLES(RAD(45), RAD(0), RAD(-35)) * ANGLES(RAD(0), RAD(90), RAD(0)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+			LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.35 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), -0.3 * SIZE) * ANGLES(RAD(25), RAD(0), RAD(15)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+			RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(65), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 1 / Animation_Speed)
+			LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(-75), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+		end
+		EQUIPPED = true
+	else
+		for i = 0, 0.3, 0.1 / Animation_Speed do
+			Swait()
+			GUNWELD.C1 = Clerp(GUNWELD.C1, CF(0, 0.5, 0) * ANGLES(RAD(65), RAD(-45), RAD(0)), 1 / Animation_Speed)
+			RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, 0 + 0.05 * SIZE * COS(SINE / 24)) * ANGLES(RAD(0), RAD(0), RAD(15)), 1 / Animation_Speed)
+			Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(25 - 5 * COS(SINE / 24)), RAD(-5), RAD(-5)), 1 / Animation_Speed)
+			RightShoulder.C0 = Clerp(RightShoulder.C0, CF(0.7 * SIZE, 0 * SIZE - 0.05 * SIZE * SIN(SINE / 24), -0.1 * SIZE) * ANGLES(RAD(35), RAD(0), RAD(-75)) * ANGLES(RAD(0), RAD(90), RAD(0)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+			LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), 0.3 * SIZE) * ANGLES(RAD(-25), RAD(15), RAD(-15)) * LEFTSHOULDERC0, 2 / Animation_Speed)
+			RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(65), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 1 / Animation_Speed)
+			LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(-75), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+		end
+		FAKEGUN.Transparency = 0
+		HELDGUN:remove()
+		HELDGUN = nil
+		EQUIPPED = false
+	end
+	ATTACK = false
+	Rooted = false
+end
+function BearTrap()
+	ATTACK = true
+	Rooted = false
+	coroutine.resume(coroutine.create(function()
+		repeat
+			Swait()
+			RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), 0 * SIZE) * ANGLES(RAD(-20), RAD(-25), RAD(15)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+		until ATTACK == false
+	end))
+	for i = 0, 0.3, 0.1 / Animation_Speed do
+		Swait()
+		RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, 0 + 0.05 * SIZE * COS(SINE / 24)) * ANGLES(RAD(0), RAD(0), RAD(15)), 1 / Animation_Speed)
+		Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(25 - 5 * COS(SINE / 24)), RAD(-5), RAD(-5)), 1 / Animation_Speed)
+		LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-0.1 * SIZE, 0.25 * SIZE - 0.05 * SIZE * SIN(SINE / 24), -0.5 * SIZE) * ANGLES(RAD(30), RAD(0), RAD(90)) * ANGLES(RAD(0), RAD(0), RAD(-35)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+		RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(65), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 1 / Animation_Speed)
+		LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(-75), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+	end
+	local GYRO = IT("BodyGyro", RootPart)
+	GYRO.D = 2
+	GYRO.P = 20000
+	GYRO.MaxTorque = VT(0, 4000000, 0)
+	GYRO.CFrame = CF(RootPart.Position, Mouse.Hit.p)
+	coroutine.resume(coroutine.create(function()
+		repeat
+			Swait()
+			GYRO.CFrame = CF(RootPart.Position, Mouse.Hit.p)
+		until ATTACK == false
+		GYRO:Remove()
+	end))
+	FAKEBEARTRAP.Transparency = 1
+	HELDTRAP.Transparency = 0
+	for i = 0, 0.4, 0.1 / Animation_Speed do
+		Swait()
+		RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, 0 + 0.05 * SIZE * COS(SINE / 24)) * ANGLES(RAD(0), RAD(0), RAD(15)), 1 / Animation_Speed)
+		Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(25 - 5 * COS(SINE / 24)), RAD(-5), RAD(-5)), 1 / Animation_Speed)
+		LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), 0 * SIZE) * ANGLES(RAD(40), RAD(0), RAD(0)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+		RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(65), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 1 / Animation_Speed)
+		LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(-75), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+	end
+	local TRAP = BEARTRAP:Clone()
+	TRAP.Parent = Effects
+	coroutine.resume(coroutine.create(function()
+		TRAP:SetPrimaryPartCFrame(HELDTRAP.CFrame)
+		local BASE = TRAP.PrimaryPart
+		local OPEN = TRAP.Open
+		local CLOSED = TRAP.Closed
+		CreateSound(147722227, BASE, 6, 1, false)
+		local DISTANCE = (BASE.Position - Mouse.Hit.p).Magnitude
+		BASE.Velocity = CF(BASE.Position - VT(0, 5, 0), Mouse.Hit.p).lookVector * (DISTANCE * 2)
+		wait(0.7)
+		BASE.Velocity = VT(0, 0, 0)
+		local ISCLOSED = false
+		for i = 1, 15 do
+			Swait()
+			BASE.CFrame = Clerp(BASE.CFrame, CF(BASE.Position + VT(0, 1, 0)), 0.4)
+		end
+		TOUCH = OPEN.Touched:Connect(function(HIT)
+			if HIT.Anchored == false and ISCLOSED == false and HIT.Parent:FindFirstChildOfClass("Humanoid") then
+				TOUCH:Disconnect()
+				ISCLOSED = true
+				OPEN.Anchored = true
+				OPEN.Transparency = 1
+				CLOSED.Transparency = 0
+				OPEN.CanCollide = false
+				CreateSound(HITPLAYERSOUNDS[MRANDOM(1, #HITPLAYERSOUNDS)], HIT, 10, 1, false)
+				ApplyDamage(HIT.Parent:FindFirstChildOfClass("Humanoid"), 60)
+				weldBetween(OPEN, HIT)
+				CreateSound(54061314, OPEN, 6, 1, false)
+			end
+		end)
+		wait(15)
+		TOUCH:Disconnect()
+		-- !!! ИЗМЕНЕНО: уменьшено количество шагов затухания с 45 до 20
+		for i = 1, 20 do
+			Swait()
+			for _, e in pairs(TRAP:GetChildren()) do
+				if e:IsA("BasePart") then
+					e.Transparency = e.Transparency + 0.05
+				end
+			end
+		end
+		TRAP:Remove()
+	end))
+	HELDTRAP.Transparency = 1
+	for i = 0, 0.3, 0.1 / Animation_Speed do
+		Swait()
+		RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, 0 + 0.05 * SIZE * COS(SINE / 24)) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed)
+		Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(25 - 5 * COS(SINE / 24)), RAD(-5), RAD(5)), 1 / Animation_Speed)
+		LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.35 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), -0.2 * SIZE) * ANGLES(RAD(120), RAD(0), RAD(10)) * LEFTSHOULDERC0, 2 / Animation_Speed)
+		RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(75), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+		LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(-5), RAD(-90), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+	end
+	FAKEBEARTRAP.Transparency = 0
+	ATTACK = false
+	Rooted = false
+end
+function HandGrenade()
+	ATTACK = true
+	Rooted = false
+	Chatter("How about a little fire?", 0)
+	coroutine.resume(coroutine.create(function()
+		repeat
+			Swait()
+			RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5 * SIZE, 0.35 * SIZE - 0.05 * SIZE * SIN(SINE / 24), 0.2 * SIZE) * ANGLES(RAD(-20), RAD(-25), RAD(-3)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+		until ATTACK == false
+	end))
+	local GYRO = IT("BodyGyro", RootPart)
+	GYRO.D = 2
+	GYRO.P = 20000
+	GYRO.MaxTorque = VT(0, 4000000, 0)
+	GYRO.CFrame = CF(RootPart.Position, Mouse.Hit.p)
+	coroutine.resume(coroutine.create(function()
+		repeat
+			Swait()
+			GYRO.CFrame = CF(RootPart.Position, Mouse.Hit.p)
+		until ATTACK == false
+		GYRO:Remove()
+	end))
+	for i = 0, 0.4, 0.1 / Animation_Speed do
+		Swait()
+		RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, 0 + 0.05 * SIZE * COS(SINE / 24)) * ANGLES(RAD(0), RAD(0), RAD(15)), 1 / Animation_Speed)
+		Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(0 - 5 * COS(SINE / 24)), RAD(-5), RAD(-5)), 1 / Animation_Speed)
+		LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), 0 * SIZE) * ANGLES(RAD(-5), RAD(0), RAD(15)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+		RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(65), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 1 / Animation_Speed)
+		LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(-75), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+	end
+	local NADE = GRENADE:Clone()
+	NADE.CFrame = LeftArm.CFrame * CF(0, -1.2 * SIZE, 0) * ANGLES(RAD(90), RAD(0), RAD(0))
+	NADE.Parent = Effects
+	CreateSound(326088041, NADE, 7, 1, false)
+	local WELD = weldBetween(LeftArm, NADE)
+	for i = 0, 0.7, 0.1 / Animation_Speed do
+		Swait()
+		RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, 0 + 0.05 * SIZE * COS(SINE / 24)) * ANGLES(RAD(0), RAD(0), RAD(25)), 1 / Animation_Speed)
+		Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(0 - 5 * COS(SINE / 24)), RAD(-5), RAD(-15)), 1 / Animation_Speed)
+		LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), 0 * SIZE) * ANGLES(RAD(150), RAD(0), RAD(0)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+		RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(55), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 1 / Animation_Speed)
+		LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(-75), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+	end
+	coroutine.resume(coroutine.create(function()
+		WELD:remove()
+		local DISTANCE = (NADE.Position - Mouse.Hit.p).Magnitude
+		if DISTANCE > 150 then
+			DISTANCE = 150
+		end
+		NADE.Velocity = CF(NADE.Position - VT(0, 5, 0), Mouse.Hit.p).lookVector * (DISTANCE * 2)
+		wait(0.2)
+		TOUCH = NADE.Touched:Connect(function()
+			TOUCH:Disconnect()
+			wait(0.5)
+			NADE.Anchored = true
+			NADE.Transparency = 1
+			NADE.CanCollide = false
+			local COLORS = {
+				C3(0.8862745098039215, 0.6078431372549019, 0.25098039215686274),
+				C3(1, 0, 0),
+				C3(0.9607843137254902, 0.803921568627451, 0.18823529411764706)
+			}
+			-- !!! ИЗМЕНЕНО: уменьшено время и размеры взрыва
+			WACKYEFFECT({
+				Time = 30,   -- было 66
+				EffectType = "Sphere",
+				Size = VT(30, 30, 30),
+				Size2 = VT(250, 250, 250),
+				Transparency = 0.99,
+				Transparency2 = 1,
+				CFrame = CF(NADE.Position),
+				MoveToPos = nil,
+				RotationX = 0,
+				RotationY = 0,
+				RotationZ = 0,
+				Material = "Neon",
+				Color = C3(1, 1, 1),
+				SoundID = nil,
+				SoundPitch = nil,
+				SoundVolume = nil
+			})
+			-- !!! ИЗМЕНЕНО: уменьшено количество искр с 45 до 12
+			for i = 1, 12 do
+				WACKYEFFECT({
+					Time = MRANDOM(10, 30),  -- уменьшено время
+					EffectType = "Sphere",
+					Size = VT(45, 45, 45) * MRANDOM(5, 10) / 10,
+					Size2 = VT(65, 65, 65) * MRANDOM(5, 15) / 10,
+					Transparency = 0,
+					Transparency2 = 1,
+					CFrame = CF(NADE.Position) * ANGLES(RAD(MRANDOM(0, 360)), RAD(MRANDOM(0, 360)), RAD(MRANDOM(0, 360))) * CF(0, 12, 0),
+					MoveToPos = nil,
+					RotationX = 0,
+					RotationY = 0,
+					RotationZ = 0,
+					Material = "Neon",
+					Color = COLORS[MRANDOM(1, #COLORS)],
+					SoundID = nil,
+					SoundPitch = nil,
+					SoundVolume = nil
+				})
+			end
+			ApplyAoE(NADE.Position, 75, 35, 80, 145, false)
+			SHAKECAM(NADE.Position, 160, 12, 25)
+			CreateSound(174580476, NADE, 10, 1, false)
+			CreateSound(165970126, NADE, 6, 1, false)
+			Debris:AddItem(NADE, 10)
+		end
+	end))
+	for i = 0, 0.3, 0.1 / Animation_Speed do
+		Swait()
+		RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, 0 + 0.05 * SIZE * COS(SINE / 24)) * ANGLES(RAD(0), RAD(0), RAD(-25)), 1 / Animation_Speed)
+		Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(0 - 5 * COS(SINE / 24)), RAD(-5), RAD(15)), 1 / Animation_Speed)
+		LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.35 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), -0.2 * SIZE) * ANGLES(RAD(25), RAD(0), RAD(10)) * LEFTSHOULDERC0, 2 / Animation_Speed)
+		RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+		LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(-5), RAD(-80), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+	end
+	ATTACK = false
+	Rooted = false
+end
+function AttackTemplate()
+	ATTACK = true
+	Rooted = false
+	for i = 0, 1, 0.1 / Animation_Speed do
+		Swait()
+		RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, 0 + 0.05 * SIZE * COS(SINE / 24)) * ANGLES(RAD(0), RAD(0), RAD(15)), 1 / Animation_Speed)
+		Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(25 - 5 * COS(SINE / 24)), RAD(-5), RAD(-5)), 1 / Animation_Speed)
+		RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), 0 * SIZE) * ANGLES(RAD(0), RAD(0), RAD(15)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+		LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5 * SIZE, 0.5 * SIZE - 0.05 * SIZE * SIN(SINE / 24), 0 * SIZE) * ANGLES(RAD(0), RAD(0), RAD(-15)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+		RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(65), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 1 / Animation_Speed)
+		LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(-75), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+	end
+	ATTACK = false
+	Rooted = false
+end
+function MouseDown(Mouse)
+	if ATTACK == false then
+		Fury()
+	end
+end
+function MouseUp(Mouse)
+	HOLD = false
+end
+function KeyDown(Key)
+	KEYHOLD = true
+	if Key == "f" and ATTACK == false then
+		EquipGun()
+	end
+	if Key == "c" and ATTACK == false then
+		BearTrap()
+	end
+	if Key == "v" and ATTACK == false then
+		HandGrenade()
+	end
+	if Key ~= "x" or ATTACK == false then
+	end
+end
+function KeyUp(Key)
+	KEYHOLD = false
+end
+Mouse.Button1Down:connect(function(NEWKEY)
+	MouseDown(NEWKEY)
+end)
+Mouse.Button1Up:connect(function(NEWKEY)
+	MouseUp(NEWKEY)
+end)
+Mouse.KeyDown:connect(function(NEWKEY)
+	KeyDown(NEWKEY)
+end)
+Mouse.KeyUp:connect(function(NEWKEY)
+	KeyUp(NEWKEY)
+end)
+function unanchor()
+	for _, c in pairs(Character:GetChildren()) do
+		if c:IsA("BasePart") and c ~= RootPart then
+			c.Anchored = false
+		end
+	end
+	if UNANCHOR == true then
+		RootPart.Anchored = false
+	else
+		RootPart.Anchored = true
+	end
+end
+Humanoid.Changed:connect(function(Jump)
+	if Jump == "Jump" and Disable_Jump == true then
+		Humanoid.Jump = false
+	end
+end)
+
+-- !!! ВЫНОСИМ НАСТРОЙКИ ВНЕШНОСТИ И МУЗЫКУ В ИНИЦИАЛИЗАЦИЮ, ЧТОБЫ НЕ ПЕРЕСОЗДАВАТЬ КАЖДЫЙ КАДР
+-- Настройка внешности (один раз)
+for _, c in pairs(Character:GetChildren()) do
+	if c.ClassName == "Part" and c.Name ~= "Eye" then
+		c.Material = "Granite"
+		if c:FindFirstChildOfClass("ParticleEmitter") then
+			c:FindFirstChildOfClass("ParticleEmitter"):remove()
+		end
+		c.Color = C3(0.3137254901960784, 0.2627450980392157, 0.2627450980392157)
+		if c == Head and c:FindFirstChild("face") then
+			c.face:remove()
+		end
+	elseif c.ClassName == "CharacterMesh" or c.ClassName == "Accessory" or c.Name == "Body Colors" then
+		c:remove()
+	elseif (c.ClassName == "Shirt" or c.ClassName == "Pants") and c.Name ~= "Cloth" then
+		c:remove()
+	end
+end
+Humanoid.DisplayDistanceType = "None"
+Humanoid.Name = "NONHUM"
+
+-- Музыка создаётся один раз
+sick.Name = "Music"
+sick.SoundId = getcustomasset("Mr ByeBye.mp3")
+sick.Looped = true
+sick.Pitch = 0.9
+sick.Volume = 3
+sick.Playing = true
+
+-- !!! ГЛАВНЫЙ ЦИКЛ (убран лишний перебор частей персонажа и пересоздание музыки)
+while true do
+	Swait()
+	script.Parent = WEAPONGUI
+	ANIMATE.Parent = nil
+	for _, v in next, Humanoid:GetPlayingAnimationTracks() do
+		v:Stop()
+	end
+	SINE = SINE + CHANGE
+	Humanoid.HipHeight = 0.4
+	Humanoid.JumpPower = 150
+	local TORSOVELOCITY = (RootPart.Velocity * VT(1, 0, 1)).magnitude
+	local TORSOVERTICALVELOCITY = RootPart.Velocity.y
+	local HITFLOOR = Raycast(RootPart.Position, CF(RootPart.Position, RootPart.Position + VT(0, -1, 0)).lookVector, 4 * SIZE, Character)
+	local WALKSPEEDVALUE = 10 / (Humanoid.WalkSpeed / 16)
+	if ANIM == "Walk" and TORSOVELOCITY > 1 then
+		RootJoint.C1 = Clerp(RootJoint.C1, ROOTC0 * CF(0, 0, -0.15 * COS(SINE / (WALKSPEEDVALUE / 2))) * ANGLES(RAD(0), RAD(0), RAD(0)), 2 * (Humanoid.WalkSpeed / 16) / Animation_Speed)
+		Neck.C1 = Clerp(Neck.C1, CF(0, -0.5 * SIZE, 0) * ANGLES(RAD(-90), RAD(0), RAD(180)) * ANGLES(RAD(2.5 * SIN(SINE / (WALKSPEEDVALUE / 2))), RAD(0), RAD(0) - Head.RotVelocity.Y / 30), 0.2 * (Humanoid.WalkSpeed / 16) / Animation_Speed)
+		RightHip.C1 = Clerp(RightHip.C1, CF(0.5 * SIZE, 0.885 * SIZE - 0.125 * SIZE * SIN(SINE / WALKSPEEDVALUE) - 0.15 * COS(SINE / WALKSPEEDVALUE * 2), 0.3) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(35 * COS(SINE / WALKSPEEDVALUE))), 0.6 / Animation_Speed)
+		LeftHip.C1 = Clerp(LeftHip.C1, CF(-0.5 * SIZE, 0.885 * SIZE + 0.125 * SIZE * SIN(SINE / WALKSPEEDVALUE) - 0.15 * COS(SINE / WALKSPEEDVALUE * 2), 0.3) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(35 * COS(SINE / WALKSPEEDVALUE))), 0.6 / Animation_Speed)
+	elseif ANIM ~= "Walk" or TORSOVELOCITY < 1 then
+		RootJoint.C1 = Clerp(RootJoint.C1, ROOTC0 * CF(0, 0, 0.2) * ANGLES(RAD(0), RAD(0), RAD(0)), 0.2 / Animation_Speed)
+		Neck.C1 = Clerp(Neck.C1, CF(0, -0.5 * SIZE, 0) * ANGLES(RAD(-90), RAD(0), RAD(180)) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed)
+		RightHip.C1 = Clerp(RightHip.C1, CF(0.5 * SIZE, 1 * SIZE, 0) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed)
+		LeftHip.C1 = Clerp(LeftHip.C1, CF(-0.5 * SIZE, 1 * SIZE, 0) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed)
+	end
+	if TORSOVERTICALVELOCITY > 1 and HITFLOOR == nil then
+		ANIM = "Jump"
+		if ATTACK == false then
+			RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, 0 * SIZE) * ANGLES(RAD(0), RAD(0), RAD(0)), 1 / Animation_Speed)
+			Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(-20), RAD(0), RAD(0)), 1 / Animation_Speed)
+			RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5 * SIZE, 0.5 * SIZE, 0 * SIZE) * ANGLES(RAD(-40), RAD(0), RAD(20)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+			LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5 * SIZE, 0.5 * SIZE, 0 * SIZE) * ANGLES(RAD(-40), RAD(0), RAD(-20)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+			RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -1 * SIZE, -0.3 * SIZE) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(-5), RAD(0), RAD(-20)), 1 / Animation_Speed)
+			LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE, -0.3 * SIZE) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(-5), RAD(0), RAD(20)), 1 / Animation_Speed)
+		end
+	elseif TORSOVERTICALVELOCITY < -1 and HITFLOOR == nil then
+		ANIM = "Fall"
+		if ATTACK == false then
+			RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, 0 * SIZE) * ANGLES(RAD(-25), RAD(0), RAD(0)), 1 / Animation_Speed)
+			Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(20), RAD(0), RAD(0)), 1 / Animation_Speed)
+			RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1.5 * SIZE, 0.5 * SIZE, 0 * SIZE) * ANGLES(RAD(-10), RAD(0), RAD(25)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+			LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1.5 * SIZE, 0.5 * SIZE, 0 * SIZE) * ANGLES(RAD(-10), RAD(0), RAD(-25)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+			RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -0.8 * SIZE, -0.3 * SIZE) * ANGLES(RAD(-25), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(20)), 1 / Animation_Speed)
+			LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE, 0 * SIZE) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(10)), 1 / Animation_Speed)
+		end
+	elseif TORSOVELOCITY < 1 and HITFLOOR ~= nil then
+		ANIM = "Idle"
+		if ATTACK == false then
+			RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, 0 + 0.05 * SIZE * COS(SINE / 24)) * ANGLES(RAD(0), RAD(0), RAD(15)), 1 / Animation_Speed)
+			Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(10 - 5 * COS(SINE / 24)), RAD(-5), RAD(-5)), 1 / Animation_Speed)
+			if EQUIPPED == false then
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1 * SIZE, 0.55 * SIZE - 0.05 * SIZE * SIN(SINE / 24), -0.75 * SIZE) * ANGLES(RAD(25), RAD(0), RAD(-90)) * ANGLES(RAD(0), RAD(45), RAD(0)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1 * SIZE, 0.25 * SIZE - 0.05 * SIZE * SIN(SINE / 24), -0.5 * SIZE) * ANGLES(RAD(25), RAD(0), RAD(80)) * ANGLES(RAD(0), RAD(45), RAD(0)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+			else
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1 * SIZE, 0.5 * SIZE, -0.5 * SIZE) * ANGLES(RAD(45), RAD(0), RAD(-35)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1 * SIZE, 0.5 * SIZE, -0.8 * SIZE) * ANGLES(RAD(45), RAD(0), RAD(50)) * CF(0, 0.1 * SIZE, 0) * LEFTSHOULDERC0, 1 / Animation_Speed)
+			end
+			RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(65), RAD(0)) * ANGLES(RAD(-8), RAD(0), RAD(0)), 1 / Animation_Speed)
+			LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE - 0.05 * SIZE * COS(SINE / 24), -0.01 * SIZE) * ANGLES(RAD(0), RAD(-75), RAD(0)) * ANGLES(RAD(-4), RAD(0), RAD(0)), 1 / Animation_Speed)
+		end
+	elseif TORSOVELOCITY > 1 and HITFLOOR ~= nil then
+		ANIM = "Walk"
+		if ATTACK == false then
+			RootJoint.C0 = Clerp(RootJoint.C0, ROOTC0 * CF(0 * SIZE, 0 * SIZE, -0.1 * SIZE) * ANGLES(RAD(5), RAD(0), RAD(0)), 1 / Animation_Speed)
+			Neck.C0 = Clerp(Neck.C0, NECKC0 * CF(0, 0, 0 + (1 * SIZE - 1)) * ANGLES(RAD(5), RAD(0), RAD(0)), 1 / Animation_Speed)
+			if EQUIPPED == false then
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1 * SIZE, 0.55 * SIZE + 0.05 * SIZE * COS(SINE / (WALKSPEEDVALUE / 2)), -0.75 * SIZE) * ANGLES(RAD(25), RAD(0), RAD(-90)) * ANGLES(RAD(0), RAD(45), RAD(0)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1 * SIZE, 0.25 * SIZE + 0.05 * SIZE * COS(SINE / (WALKSPEEDVALUE / 2)), -0.5 * SIZE) * ANGLES(RAD(25), RAD(0), RAD(80)) * ANGLES(RAD(0), RAD(45), RAD(0)) * LEFTSHOULDERC0, 1 / Animation_Speed)
+			else
+				RightShoulder.C0 = Clerp(RightShoulder.C0, CF(1 * SIZE, 0.5 * SIZE + 0.05 * SIZE * COS(SINE / (WALKSPEEDVALUE / 2)), -0.5 * SIZE) * ANGLES(RAD(45), RAD(0), RAD(-35)) * RIGHTSHOULDERC0, 1 / Animation_Speed)
+				LeftShoulder.C0 = Clerp(LeftShoulder.C0, CF(-1 * SIZE, 0.5 * SIZE + 0.05 * SIZE * COS(SINE / (WALKSPEEDVALUE / 2)), -0.8 * SIZE) * ANGLES(RAD(45), RAD(0), RAD(50)) * CF(0, 0.1 * SIZE, 0) * LEFTSHOULDERC0, 1 / Animation_Speed)
+			end
+			RightHip.C0 = Clerp(RightHip.C0, CF(1 * SIZE, -1 * SIZE, 0 * SIZE) * ANGLES(RAD(0), RAD(90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 2 / Animation_Speed)
+			LeftHip.C0 = Clerp(LeftHip.C0, CF(-1 * SIZE, -1 * SIZE, 0 * SIZE) * ANGLES(RAD(0), RAD(-90), RAD(0)) * ANGLES(RAD(0), RAD(0), RAD(0)), 2 / Animation_Speed)
+		end
+	end
+	for E = 1, #TAIL do
+		TAIL[E].C1 = Clerp(TAIL[E].C1, CF(0, 0, 0) * ANGLES(RAD(-2 * COS(SINE / 48) + 1 * SIN(SINE / 12)), RAD(0), RAD(1 * SIN(SINE / 24))), 1 / Animation_Speed)
+	end
+	unanchor()
+	Humanoid.MaxHealth = 1000
+	Humanoid.Health = 1000
+	if Rooted == false then
+		Disable_Jump = false
+		Humanoid.WalkSpeed = Speed
+	elseif Rooted == true then
+		Disable_Jump = true
+		Humanoid.WalkSpeed = 0
+	end
+	-- !!! УБРАН ПЕРЕБОР ЧАСТЕЙ ПЕРСОНАЖА И ПЕРЕСОЗДАНИЕ МУЗЫКИ (вынесено выше)
+end
+end
+]]
+	loadstring(mrByeByeScript)()
+end)
+
+local hacklordBtn = Instance.new("TextButton", morphsScroll)
+hacklordBtn.Size = UDim2.new(1,0,1,0)
+hacklordBtn.Text = "Hacklord"
+hacklordBtn.BackgroundColor3 = Color3.fromRGB(35,35,35)
+hacklordBtn.TextColor3 = Color3.fromRGB(230,230,230)
+hacklordBtn.Font = Enum.Font.Gotham
+hacklordBtn.TextSize = 13
+hacklordBtn.MouseButton1Click:Connect(function()
+	click()
+	local hacklordScript = [[
+-- Hacklord by Sec00925 (автономный скрипт)
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local Lighting = game:GetService("Lighting")
+local LocalPlayer = Players.LocalPlayer
+
+local hasAppliedHackLord = false
+
+local tStyle = {
+    [Enum.PoseEasingStyle.Linear] = Enum.EasingStyle.Linear,
+    [Enum.PoseEasingStyle.Bounce] = Enum.EasingStyle.Bounce,
+    [Enum.PoseEasingStyle.Cubic] = Enum.EasingStyle.Cubic,
+    [Enum.PoseEasingStyle.Elastic] = Enum.EasingStyle.Elastic,
+    [Enum.PoseEasingStyle.Constant] = Enum.EasingStyle.Linear,
+}
+local tDirection = {
+    [Enum.PoseEasingDirection.In] = Enum.EasingDirection.In,
+    [Enum.PoseEasingDirection.Out] = Enum.EasingDirection.Out,
+    [Enum.PoseEasingDirection.InOut] = Enum.EasingDirection.InOut,
+}
+
+local function BuildTweens(Model, KeyFrameSequence, SpeedMult)
+    SpeedMult = SpeedMult or 1
+    local frames = {}
+    for _, kf in ipairs(KeyFrameSequence:GetKeyframes()) do
+        table.insert(frames, {Time = kf.Time, Keyframe = kf})
+    end
+    table.sort(frames, function(a,b) return a.Time < b.Time end)
+    local tweens, motors, values, keyPoses = {}, {}, {}, {}
+    local function GetMotorFromPose(pose)
+        for _,v in pairs(Model:GetDescendants()) do
+            if v:IsA("Motor6D") and v.Part1 and v.Part1.Name == pose.Name and v.Part0 and v.Part0.Name == pose.Parent.Name then
+                return v
+            end
+        end
+    end
+    for i,frame in ipairs(frames) do
+        keyPoses[i] = {Time = frame.Time, Poses={}}
+        for _, pose in ipairs(frame.Keyframe:GetDescendants()) do
+            if pose:IsA("Pose") and pose.Weight > 0 then
+                local motor = motors[pose.Name] or GetMotorFromPose(pose)
+                if motor then
+                    motors[pose.Name] = motor
+                    if not values[pose.Name] then
+                        local cv = Instance.new("CFrameValue")
+                        cv.Value = motor.Transform
+                        cv.Parent = motor
+                        values[pose.Name] = cv
+                    end
+                    keyPoses[i].Poses[pose.Name] = {Motor=motor, Pose=pose}
+                end
+            end
+        end
+    end
+    if #keyPoses > 1 then
+        local last = {}
+        for i=1,#keyPoses-1 do
+            local k1, k2 = keyPoses[i], keyPoses[i+1]
+            local dur = (k2.Time - k1.Time) / SpeedMult
+            tweens[i] = {Time = dur, Tweens={}}
+            for n,d in pairs(k1.Poses) do last[n]=d end
+            for n,d in pairs(k2.Poses) do
+                if last[n] then
+                    local info = TweenInfo.new(dur, tStyle[d.Pose.EasingStyle], tDirection[d.Pose.EasingDirection])
+                    tweens[i].Tweens[n] = TweenService:Create(values[n], info, {Value=d.Pose.CFrame})
+                end
+            end
+        end
+    end
+    local totalDuration = 0
+    for _, segment in ipairs(tweens) do totalDuration = totalDuration + segment.Time end
+    return tweens, motors, values, totalDuration
+end
+
+local function PlayKeyframeSequence(Model, KeyFrameSequence, SpeedMult, looped, onFinished)
+    SpeedMult = SpeedMult or 1
+    local tweens, motors, values, totalDuration = BuildTweens(Model, KeyFrameSequence, SpeedMult)
+    local stopped = false
+    local hb
+    hb = RunService.Heartbeat:Connect(function()
+        if stopped then if hb then hb:Disconnect() end return end
+        for n,motor in pairs(motors) do motor.Transform = values[n].Value end
+    end)
+    local function loop()
+        repeat
+            for _, segment in ipairs(tweens) do
+                for _, tw in pairs(segment.Tweens) do tw:Play() end
+                task.wait(segment.Time)
+                if stopped then break end
+            end
+            if not looped and not stopped then
+                stopped = true
+                if onFinished then onFinished() end
+                break
+            end
+        until stopped
+    end
+    task.spawn(loop)
+    return {
+        stop = function()
+            stopped = true
+            if hb then hb:Disconnect() hb = nil end
+            for _,v in pairs(values) do if v then v:Destroy() end end
+        end,
+        getLength = function() return totalDuration end
+    }
+end
+
+local function getRelativeCFrame(item, referencePart)
+    if not referencePart or not item then return CFrame.new() end
+    if item:IsA("Attachment") then
+        return referencePart.CFrame:Inverse() * (item.Parent.CFrame * item.CFrame)
+    end
+    return referencePart.CFrame:Inverse() * item.CFrame
+end
+
+local function weldToCharacter(character, part, targetPart, relativeCFrame, useMotor6D, offset)
+    part.Anchored = false
+    part.CanCollide = false
+    local finalCFrame = (relativeCFrame or CFrame.new()) * (offset or CFrame.new())
+    if useMotor6D then
+        local motor = Instance.new("Motor6D")
+        motor.Part0 = targetPart
+        motor.Part1 = part
+        motor.C0 = finalCFrame
+        motor.C1 = CFrame.new()
+        motor.Parent = character
+    else
+        local weld = Instance.new("Weld")
+        weld.Part0 = targetPart
+        weld.Part1 = part
+        weld.C0 = finalCFrame
+        weld.C1 = CFrame.new()
+        weld.Parent = character
+    end
+    part.Parent = character
+end
+
+local function moveAttachmentToPlayerHead(character, attachment, hackLordHead)
+    if not attachment or not hackLordHead then return end
+    local relativeCFrame = getRelativeCFrame(attachment, hackLordHead)
+    attachment.CFrame = relativeCFrame
+    attachment.Parent = character.Head
+end
+
+local function createSafeFolder()
+    local safeFolder = LocalPlayer.PlayerScripts:FindFirstChild("SavedKeyframes")
+    if not safeFolder then
+        safeFolder = Instance.new("Folder")
+        safeFolder.Name = "SavedKeyframes"
+        safeFolder.Parent = LocalPlayer.PlayerScripts
+    end
+    return safeFolder
+end
+
+local function CloneMe(char)
+    if not char then return nil end
+    char.Archivable = true
+    local clone = char:Clone()
+    char.Archivable = false
+    return clone
+end
+
+local function setupCharacter(character)
+    if hasAppliedHackLord then return end
+    hasAppliedHackLord = true
+    task.wait(1.5)
+
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if not humanoid then
+        task.wait(1)
+        humanoid = character:FindFirstChildOfClass("Humanoid")
+        if not humanoid then
+            return
+        end
+    end
+
+    local animator = humanoid:FindFirstChildOfClass("Animator")
+    if animator then animator:Destroy() end
+
+    for _, child in ipairs(character:GetChildren()) do
+        if child:IsA("Accessory") then child:Destroy() end
+    end
+    for _, child in ipairs(humanoid:GetChildren()) do
+        if child:IsA("Shirt") or child:IsA("Pants") or child:IsA("TShirt") then
+            child:Destroy()
+        end
+    end
+    for _, child in ipairs(character:GetChildren()) do
+        if child:IsA("Shirt") or child:IsA("Pants") or child:IsA("TShirt") or child:IsA("Accessory") then
+            child:Destroy()
+        end
+    end
+    for _, child in ipairs(character:GetDescendants()) do
+        if child:IsA("Shirt") or child:IsA("Pants") or child:IsA("TShirt") or child:IsA("Accessory") then
+            child:Destroy()
+        end
+    end
+
+    local bodyPartNames = {
+        "Head", "Torso", "Left Arm", "Right Arm", "Left Leg", "Right Leg",
+        "UpperTorso", "LowerTorso", "LeftUpperArm", "LeftLowerArm",
+        "RightUpperArm", "RightLowerArm", "LeftUpperLeg", "LeftLowerLeg",
+        "RightUpperLeg", "RightLowerLeg", "LeftFoot", "RightFoot"
+    }
+    for _, part in ipairs(character:GetDescendants()) do
+        if part:IsA("BasePart") and part ~= character:FindFirstChild("HumanoidRootPart") then
+            local isBody = false
+            for _, name in ipairs(bodyPartNames) do
+                if part.Name == name then isBody = true break end
+            end
+            if isBody then
+                local isTorso = (part.Name == "Torso" or part.Name == "UpperTorso" or part.Name == "LowerTorso")
+                part.Color = isTorso and Color3.fromRGB(50, 150, 50) or Color3.new(0,0,0)
+                part.Material = Enum.Material.SmoothPlastic
+                if part.Name == "Head" then
+                else
+                    for _, child in ipairs(part:GetChildren()) do
+                        if child:IsA("SpecialMesh") then child:Destroy() end
+                    end
+                    part.Shape = Enum.PartType.Block
+                end
+            end
+        end
+    end
+
+    local success, model = pcall(function() return game:GetObjects("rbxassetid://102473641596712")[1] end)
+    if success and model then
+        local hackLord = model:FindFirstChild("HackLord")
+        if hackLord then
+            local hackLordHead = hackLord:FindFirstChild("Head")
+            local referencePart = hackLord.PrimaryPart
+            if not referencePart then
+                for _, p in ipairs(hackLord:GetDescendants()) do
+                    if p:IsA("BasePart") then referencePart = p break end
+                end
+            end
+            if referencePart then
+                local components = {
+                    ExtraModels = hackLord:FindFirstChild("ExtraModels"),
+                    Coffin = hackLord:FindFirstChild("Coffin"),
+                    ErlkingCoffinChains = hackLord:FindFirstChild("ErlkingCoffinChains"),
+                    HaxxedCrown = hackLord:FindFirstChild("Haxxed Crown")
+                }
+                for name, component in pairs(components) do
+                    if component then
+                        if component:IsA("Model") then
+                            for _, part in ipairs(component:GetDescendants()) do
+                                if part:IsA("BasePart") then
+                                    local relCF = getRelativeCFrame(part, referencePart)
+                                    weldToCharacter(character, part, character.HumanoidRootPart, relCF, true)
+                                end
+                            end
+                        elseif component:IsA("BasePart") then
+                            local relCF = getRelativeCFrame(component, referencePart)
+                            if name == "ErlkingCoffinChains" then
+                                local torso = character:FindFirstChild("Torso") or character:FindFirstChild("UpperTorso")
+                                if torso then weldToCharacter(character, component, torso, relCF, false)
+                                else weldToCharacter(character, component, character.HumanoidRootPart, relCF, false) end
+                            elseif name == "HaxxedCrown" then
+                                weldToCharacter(character, component, character.Head, relCF, false, CFrame.new(0, -1.5, 0))
+                            else
+                                weldToCharacter(character, component, character.HumanoidRootPart, relCF, true)
+                            end
+                        end
+                    end
+                end
+                if hackLordHead then
+                    for _, att in ipairs(hackLordHead:GetChildren()) do
+                        if att:IsA("Attachment") then moveAttachmentToPlayerHead(character, att, hackLordHead) end
+                    end
+                end
+                local animSaves = hackLord:FindFirstChild("AnimSaves")
+                if animSaves then
+                    local safeFolder = createSafeFolder()
+                    for _, anim in ipairs(animSaves:GetChildren()) do
+                        if anim:IsA("KeyframeSequence") then
+                            local clone = anim:Clone()
+                            clone.Parent = safeFolder
+                        end
+                    end
+                end
+            end
+        end
+        model:Destroy()
+    end
+
+    local savedKeyframes = LocalPlayer.PlayerScripts:FindFirstChild("SavedKeyframes")
+    if not savedKeyframes then
+        return
+    end
+
+    local idleAnim = savedKeyframes:FindFirstChild("Idle")
+    local walkAnim = savedKeyframes:FindFirstChild("Walk")
+    local runAnim = savedKeyframes:FindFirstChild("Run")
+    local executionAnim = savedKeyframes:FindFirstChild("Execution")
+    local executionVictimAnim = savedKeyframes:FindFirstChild("ExecutionVictim")
+    local slashKeyframe = savedKeyframes:FindFirstChild("Slash")
+    local massInfectionKeyframe = savedKeyframes:FindFirstChild("Mass Infection")
+    local entaglementKeyframe = savedKeyframes:FindFirstChild("Entaglement")
+
+    if not (idleAnim and walkAnim and runAnim and slashKeyframe and massInfectionKeyframe and entaglementKeyframe) then
+        return
+    end
+
+    local currentAnimObj = nil
+    local isRunning = false
+    local connections = {}
+    local footstepCoroutine = nil
+    local isPlayingAbility = false
+    local abilityDebounces = {}
+
+    local function playAnimation(anim, speedMult, looped, onFinish)
+        if currentAnimObj then
+            currentAnimObj.stop()
+            currentAnimObj = nil
+        end
+        if anim then
+            currentAnimObj = PlayKeyframeSequence(character, anim, speedMult or 2, looped, onFinish)
+        end
+    end
+
+    local sound1 = Instance.new("Sound", character.HumanoidRootPart)
+    sound1.SoundId = "rbxassetid://131164918216963"
+    local sound2 = Instance.new("Sound", character.HumanoidRootPart)
+    sound2.SoundId = "rbxassetid://87336115451799"
+    local currentSound = 1
+    local function playFootstep()
+        (currentSound == 1 and sound1 or sound2):Play()
+        currentSound = 3 - currentSound
+    end
+    function startFootsteps()
+        if footstepCoroutine then coroutine.close(footstepCoroutine) end
+        footstepCoroutine = coroutine.create(function()
+            while humanoid and humanoid.MoveDirection.Magnitude > 0 and humanoid.WalkSpeed > 2 and not isPlayingAbility do
+                playFootstep()
+                task.wait(isRunning and 0.5 or 0.7)
+            end
+        end)
+        coroutine.resume(footstepCoroutine)
+    end
+    function stopFootsteps()
+        if footstepCoroutine then coroutine.close(footstepCoroutine) footstepCoroutine = nil end
+    end
+
+    local screenGui = Instance.new("ScreenGui", LocalPlayer.PlayerGui)
+    screenGui.Name = "HackLordUI"
+    screenGui.ResetOnSpawn = false
+    screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    screenGui.DisplayOrder = 999
+
+    local toggleButton = Instance.new("ImageButton", screenGui)
+    toggleButton.Size = UDim2.new(0, 100, 0, 100)
+    toggleButton.Position = UDim2.new(0, 20, 1, -120)
+    toggleButton.BackgroundTransparency = 1
+    toggleButton.Image = "rbxassetid://132640025048316"
+    toggleButton.ZIndex = 10
+
+    local abilities = {
+        ["Entaglement"] = {
+            keyframe = entaglementKeyframe,
+            cooldown = 7,
+            extraWait = 0.5,
+            sound = "rbxassetid://85739345749675",
+            image = "rbxassetid://119069138923680",
+            extraLogic = nil
+        },
+        ["Mass Infection"] = {
+            keyframe = massInfectionKeyframe,
+            cooldown = 7,
+            extraWait = 1,
+            sound = "rbxassetid://108321828055199",
+            image = "rbxassetid://112065267803856",
+            extraLogic = function()
+                task.spawn(function()
+                    local hrp = character:FindFirstChild("HumanoidRootPart")
+                    if hrp then
+                        local proj = Instance.new("MeshPart")
+                        proj.MeshId = "rbxassetid://2836527412"
+                        proj.Color = Color3.new(0, 1, 0)
+                        proj.Size = Vector3.new(1, 1, 1)
+                        proj.CFrame = hrp.CFrame * CFrame.new(0, 0, -3)
+                        proj.Anchored = true
+                        proj.CanCollide = false
+                        proj.Parent = Workspace
+                        local moveConn = RunService.Heartbeat:Connect(function(dt)
+                            if proj and proj.Parent then
+                                proj.CFrame = proj.CFrame * CFrame.new(0, 0, -50 * dt)
+                            end
+                        end)
+                        task.delay(6, function()
+                            if moveConn then moveConn:Disconnect() end
+                            if proj and proj.Parent then proj:Destroy() end
+                        end)
+                    end
+                end)
+            end
+        },
+        ["Slash"] = {
+            keyframe = slashKeyframe,
+            cooldown = 2,
+            extraWait = 0.5,
+            sound = "rbxassetid://98622759453637",
+            image = "rbxassetid://120590195585579",
+            extraLogic = function()
+                task.spawn(function()
+                    local hitbox = Instance.new("Part")
+                    hitbox.Size = Vector3.new(3, 3, 5)
+                    hitbox.Transparency = 1
+                    hitbox.CanCollide = false
+                    hitbox.CFrame = character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -3)
+                    hitbox.Parent = Workspace
+                    local weld = Instance.new("WeldConstraint")
+                    weld.Part0 = character.HumanoidRootPart
+                    weld.Part1 = hitbox
+                    weld.Parent = hitbox
+                    local conn
+                    conn = hitbox.Touched:Connect(function(hit)
+                        if not hit or not hit.Parent then return end
+                        if hit:IsDescendantOf(character) then return end
+                        local targetChar = hit:FindFirstAncestorWhichIsA("Model")
+                        if not targetChar then return end
+                        local targetHum = targetChar:FindFirstChildOfClass("Humanoid")
+                        if not targetHum then return end
+                        local targetPlayer = Players:GetPlayerFromCharacter(targetChar)
+                        if not targetPlayer then return end
+                        local dmg = 20
+                        if targetHum.Health - dmg <= 0 then
+                            targetHum.Health = 1
+                            local charClone = CloneMe(targetChar)
+                            if charClone then
+                                charClone.Parent = Workspace
+                                local cloneHRP = charClone:FindFirstChild("HumanoidRootPart")
+                                if cloneHRP then
+                                    cloneHRP.CFrame = character.HumanoidRootPart.CFrame
+                                    local cloneWeld = Instance.new("WeldConstraint")
+                                    cloneWeld.Part0 = character.HumanoidRootPart
+                                    cloneWeld.Part1 = cloneHRP
+                                    cloneWeld.Parent = cloneHRP
+                                    PlayKeyframeSequence(character, executionAnim, 2, false, function()
+                                        if charClone and charClone.Parent then charClone:Destroy() end
+                                    end)
+                                    if executionVictimAnim then
+                                        PlayKeyframeSequence(charClone, executionVictimAnim, 2, false, function()
+                                            if charClone and charClone.Parent then charClone:Destroy() end
+                                        end)
+                                    end
+                                    targetHum:TakeDamage(dmg)
+                                    targetHum.Health = targetHum.MaxHealth
+                                end
+                            end
+                            if conn then conn:Disconnect() end
+                            if hitbox and hitbox.Parent then hitbox:Destroy() end
+                        else
+                            targetHum:TakeDamage(dmg)
+                            if conn then conn:Disconnect() end
+                            if hitbox and hitbox.Parent then hitbox:Destroy() end
+                        end
+                    end)
+                    task.delay(2, function()
+                        if conn then conn:Disconnect() end
+                        if hitbox and hitbox.Parent then hitbox:Destroy() end
+                    end)
+                end)
+            end
+        }
+    }
+
+    local abilityOrder = {"Entaglement", "Mass Infection", "Slash"}
+    local buttonYOffsets = {-400, -300, -200}
+
+    for i, name in ipairs(abilityOrder) do
+        local data = abilities[name]
+        if data then
+            local yOffset = buttonYOffsets[i]
+            local btn = Instance.new("ImageButton", screenGui)
+            btn.Size = UDim2.new(0, 90, 0, 90)
+            btn.Position = UDim2.new(1, -100, 1, yOffset)
+            btn.BackgroundTransparency = 1
+            btn.Image = data.image
+            btn.ZIndex = 10
+            local corner = Instance.new("UICorner", btn)
+            corner.CornerRadius = UDim.new(1, 0)
+
+            abilityDebounces[name] = false
+
+            connections[name] = btn.MouseButton1Click:Connect(function()
+                if isPlayingAbility or abilityDebounces[name] then return end
+                isPlayingAbility = true
+                abilityDebounces[name] = true
+
+                btn.ImageTransparency = 0.5
+                task.delay(data.cooldown, function()
+                    abilityDebounces[name] = false
+                    btn.ImageTransparency = 0
+                end)
+
+                humanoid.WalkSpeed = 2
+                stopFootsteps()
+                if currentAnimObj then currentAnimObj.stop() currentAnimObj = nil end
+
+                PlayKeyframeSequence(character, data.keyframe, 2, false)
+                if data.sound then
+                    local s = Instance.new("Sound", character.HumanoidRootPart)
+                    s.SoundId = data.sound
+                    s:Play()
+                    s.Ended:Connect(function() s:Destroy() end)
+                end
+                if data.extraLogic then data.extraLogic() end
+
+                local length = 0
+                local ok, obj = pcall(function() return PlayKeyframeSequence(character, data.keyframe, 2, false) end)
+                if ok and obj and obj.getLength then
+                    length = obj.getLength()
+                    obj.stop()
+                end
+                task.wait(length + (data.extraWait or 0))
+
+                isPlayingAbility = false
+                humanoid.WalkSpeed = isRunning and 28 or 16
+                if humanoid.MoveDirection.Magnitude > 0 then
+                    playAnimation(isRunning and runAnim or walkAnim, 2, true)
+                    startFootsteps()
+                else
+                    playAnimation(idleAnim, 2, true)
+                end
+            end)
+        end
+    end
+
+    local lastMagnitude = 0
+    connections.move = RunService.Heartbeat:Connect(function()
+        if not humanoid or not character.Parent or isPlayingAbility then return end
+        local magnitude = humanoid.MoveDirection.Magnitude
+        if magnitude > 0 and lastMagnitude == 0 and humanoid.WalkSpeed > 2 then
+            startFootsteps()
+            playAnimation(isRunning and runAnim or walkAnim, 2, true)
+        elseif magnitude == 0 and lastMagnitude > 0 then
+            stopFootsteps()
+            playAnimation(idleAnim, 2, true)
+        end
+        lastMagnitude = magnitude
+    end)
+
+    connections.cleanup = character.AncestryChanged:Connect(function()
+        if not character.Parent then
+            for _, conn in pairs(connections) do
+                if conn and typeof(conn) == "RBXScriptConnection" then conn:Disconnect() end
+            end
+            stopFootsteps()
+            if screenGui and screenGui.Parent then screenGui:Destroy() end
+        end
+    end)
+
+    local function toggleRunState()
+        isRunning = not isRunning
+        humanoid.WalkSpeed = isRunning and 28 or 16
+        if humanoid.MoveDirection.Magnitude > 0 and not isPlayingAbility then
+            playAnimation(isRunning and runAnim or walkAnim, 2, true)
+        end
+    end
+    connections.toggle = toggleButton.MouseButton1Click:Connect(toggleRunState)
+
+    humanoid.WalkSpeed = 16
+    playAnimation(idleAnim, 2, true)
+end
+
+local function onCharacterAdded(character)
+    if not hasAppliedHackLord then
+        task.wait(0.5)
+        setupCharacter(character)
+    end
+end
+
+LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
+if LocalPlayer.Character then
+    onCharacterAdded(LocalPlayer.Character)
+end
+]]
+	loadstring(hacklordScript)()
+end)
+
+local miscContainer = Instance.new("Frame", misc)
+miscContainer.Size = UDim2.new(1,-20,1,-20)
+miscContainer.Position = UDim2.new(0,10,0,10)
+miscContainer.BackgroundColor3 = Color3.fromRGB(20,0,35)
+miscContainer.ClipsDescendants = true
+
+local miscLabel = Instance.new("TextLabel", miscContainer)
+miscLabel.Size = UDim2.new(1,0,0,30)
+miscLabel.BackgroundTransparency = 1
+miscLabel.Text = "Misc"
+miscLabel.TextColor3 = Color3.fromRGB(255,255,255)
+miscLabel.Font = Enum.Font.GothamBold
+miscLabel.TextSize = 16
+miscLabel.TextXAlignment = Enum.TextXAlignment.Left
+miscLabel.Position = UDim2.new(0,10,0,5)
+
+local miscScroll = Instance.new("ScrollingFrame", miscContainer)
+miscScroll.Size = UDim2.new(1,0,1,-40)
+miscScroll.Position = UDim2.new(0,0,0,35)
+miscScroll.BackgroundTransparency = 1
+miscScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+miscScroll.ScrollBarThickness = 4
+
+local miscGrid = Instance.new("UIGridLayout", miscScroll)
+miscGrid.CellSize = UDim2.new(0.9,0,0,30)
+miscGrid.CellPadding = UDim2.new(0,5,0,5)
+miscGrid.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+local function addMiscButton(name, url)
+	local btn = Instance.new("TextButton", miscScroll)
+	btn.Size = UDim2.new(1,0,1,0)
+	btn.Text = name
+	btn.BackgroundColor3 = Color3.fromRGB(35,35,35)
+	btn.TextColor3 = Color3.fromRGB(230,230,230)
+	btn.Font = Enum.Font.Gotham
+	btn.TextSize = 13
+	btn.MouseButton1Click:Connect(function()
+		click()
+		loadstring(game:HttpGet(url))()
+	end)
+end
+
+addMiscButton("Keyboard", "https://raw.githubusercontent.com/Xxtan31/Ata/main/deltakeyboardcrack.txt")
+addMiscButton("R6", "https://raw.githubusercontent.com/LeathalMurd/Roblox-R15-To-R6/refs/heads/main/Converter.lua")
+
+local guiContainer = Instance.new("Frame", guiPage)
+guiContainer.Size = UDim2.new(1,-20,1,-20)
+guiContainer.Position = UDim2.new(0,10,0,10)
+guiContainer.BackgroundColor3 = Color3.fromRGB(20,0,35)
+guiContainer.ClipsDescendants = true
+
+local guiLabel = Instance.new("TextLabel", guiContainer)
+guiLabel.Size = UDim2.new(1,0,0,30)
+guiLabel.BackgroundTransparency = 1
+guiLabel.Text = "GUI"
+guiLabel.TextColor3 = Color3.fromRGB(255,255,255)
+guiLabel.Font = Enum.Font.GothamBold
+guiLabel.TextSize = 16
+guiLabel.TextXAlignment = Enum.TextXAlignment.Left
+guiLabel.Position = UDim2.new(0,10,0,5)
+
+local guiScroll = Instance.new("ScrollingFrame", guiContainer)
+guiScroll.Size = UDim2.new(1,0,1,-40)
+guiScroll.Position = UDim2.new(0,0,0,35)
+guiScroll.BackgroundTransparency = 1
+guiScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+guiScroll.ScrollBarThickness = 4
+
+local guiGrid = Instance.new("UIGridLayout", guiScroll)
+guiGrid.CellSize = UDim2.new(0.9,0,0,30)
+guiGrid.CellPadding = UDim2.new(0,5,0,5)
+guiGrid.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+local function addGuiButton(name, url)
+	local btn = Instance.new("TextButton", guiScroll)
+	btn.Size = UDim2.new(1,0,1,0)
+	btn.Text = name
+	btn.BackgroundColor3 = Color3.fromRGB(35,35,35)
+	btn.TextColor3 = Color3.fromRGB(230,230,230)
+	btn.Font = Enum.Font.Gotham
+	btn.TextSize = 13
+	btn.MouseButton1Click:Connect(function()
+		click()
+		loadstring(game:HttpGet(url))()
+	end)
+end
+
+addGuiButton("Fly GUI", "https://raw.githubusercontent.com/makkurokurosukescript/VFly-gui/refs/heads/main/VFly%20gui")
+addGuiButton("NPS Spawner", "https://rawscripts.net/raw/Universal-Script-NPC-S*er-201877")
+
+local function tweenColor(object, color1, color2, duration)
+	while true do
+		TweenService:Create(object, TweenInfo.new(duration, Enum.EasingStyle.Linear), {BackgroundColor3 = color2}):Play()
+		task.wait(duration)
+		TweenService:Create(object, TweenInfo.new(duration, Enum.EasingStyle.Linear), {BackgroundColor3 = color1}):Play()
+		task.wait(duration)
+	end
+end
+
+local darkPurple = Color3.fromRGB(40,0,60)
+local lightPurple = Color3.fromRGB(80,20,120)
+local darkSide = Color3.fromRGB(25,0,40)
+local lightSide = Color3.fromRGB(60,15,90)
+
+local duration = 6.67
+
+task.spawn(function() tweenColor(main, darkPurple, lightPurple, duration) end)
+task.spawn(function() tweenColor(sidebar, darkSide, lightSide, duration) end)
+
+local strokeColor1 = Color3.fromRGB(150,50,200)
+local strokeColor2 = Color3.fromRGB(200,100,255)
+task.spawn(function()
+	while true do
+		TweenService:Create(stroke, TweenInfo.new(duration, Enum.EasingStyle.Linear), {Color = strokeColor2}):Play()
+		task.wait(duration)
+		TweenService:Create(stroke, TweenInfo.new(duration, Enum.EasingStyle.Linear), {Color = strokeColor1}):Play()
+		task.wait(duration)
+	end
+end)
