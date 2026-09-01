@@ -258,6 +258,7 @@ addMorphButton("White sickle", "https://pastebin.com/raw/xHaWXEqA")
 addMorphButton("Rainbow King", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Rainbow%20Banisher")
 addMorphButton("Spectrum Glitcher", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Spectrum%20Glitcher")
 addMorphButton("John doe", "https://drive.google.com/uc?export=download&id=1VCgc8Mgy8lueqXFjWqzSS8CNsqRmKvAb")
+addMorphButton("Mr bye bye", "https://raw.githubusercontent.com/sharipovdaniyal81-hash/Mr-bye-bye/refs/heads/main/Mr%20bye%20bye")
 
 local hacklordBtn = Instance.new("TextButton", morphsScroll)
 hacklordBtn.Size = UDim2.new(1,0,1,0)
