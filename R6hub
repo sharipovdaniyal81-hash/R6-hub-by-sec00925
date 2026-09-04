@@ -263,6 +263,8 @@ addMorphButton("Hallow Slayer", "https://raw.githubusercontent.com/ian49972/SCRI
 addMorphButton("Lunatic", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/lunatic")
 addMorphButton("Refulgence", "https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/light")
 addMorphButton("Sukuna", "https://pastebin.com/raw/iW2Gg6Hh")
+addMorphButton("Ultimate Dominus", "https://pastebin.com/raw/gBFyvYzQ")
+addMorphButton("Mr.pixels", "https://raw.githubusercontent.com/gObl00x/My-Converts/refs/heads/main/Mr.Pixels.lua")
 
 local hacklordBtn = Instance.new("TextButton", morphsScroll)
 hacklordBtn.Size = UDim2.new(1,0,1,0)
