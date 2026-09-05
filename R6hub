@@ -265,6 +265,9 @@ addMorphButton("Refulgence", "https://raw.githubusercontent.com/ian49972/SCRIPTS
 addMorphButton("Sukuna", "https://pastebin.com/raw/iW2Gg6Hh")
 addMorphButton("Ultimate Dominus", "https://pastebin.com/raw/gBFyvYzQ")
 addMorphButton("Mr.pixels", "https://raw.githubusercontent.com/gObl00x/My-Converts/refs/heads/main/Mr.Pixels.lua")
+addMorphButton("Purple Hand", "https://pastebin.com/raw/cF3S1FVV")
+addMorphButton("Rainbow Glowe", "https://pastebin.com/raw/377urnW7")
+addMorphButton("Love Glowe", "https://pastebin.com/raw/AaNuC7H8")
 
 local hacklordBtn = Instance.new("TextButton", morphsScroll)
 hacklordBtn.Size = UDim2.new(1,0,1,0)
