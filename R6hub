@@ -268,7 +268,7 @@ addMorphButton("Mr.pixels", "https://raw.githubusercontent.com/gObl00x/My-Conver
 addMorphButton("Purple Hand", "https://pastebin.com/raw/cF3S1FVV")
 addMorphButton("Rainbow Glowe", "https://pastebin.com/raw/377urnW7")
 addMorphButton("Love Glowe", "https://pastebin.com/raw/AaNuC7H8")
-addMorphButton("Pumpkin Overseer", "https://pastebin.com/raw/YZhbRq5w")
+addMorphButton("Pumpkin Overseer", "https://pastebin.com/raw/sX25byLe")
 
 local hacklordBtn = Instance.new("TextButton", morphsScroll)
 hacklordBtn.Size = UDim2.new(1,0,1,0)
