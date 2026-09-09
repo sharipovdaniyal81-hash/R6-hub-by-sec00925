@@ -273,6 +273,8 @@ addMorphButton("Kitchen gun", "https://raw.githubusercontent.com/nicolasbarbosa3
 addMorphButton("Red Sin dragon", "https://raw.githubusercontent.com/nicolasbarbosa323/sin-dragon/refs/heads/main/Fe_sin_dragon_music_customizado_final.lua")
 addMorphButton("Gaster hands", "https://raw.githubusercontent.com/nicolasbarbosa323/good-cop-bad-coop/refs/heads/main/GasterHands.txt")
 addMorphButton("Galaxy banisher gun", "https://raw.githubusercontent.com/sharipovdaniyal81-hash/Galaxy-banisher-gun/refs/heads/main/Galaxy%20banisher")
+addMorphButton("John Doe (Remake)", "https://raw.githubusercontent.com/nicolasbarbosa323/john-doe/refs/heads/main/john%20doe%20completed.lua")
+addMorphButton("Xester (Remake)", "https://raw.githubusercontent.com/nicolasbarbosa323/xester/refs/heads/main/qC7MUFRJ.txt")
 
 local hacklordBtn = Instance.new("TextButton", morphsScroll)
 hacklordBtn.Size = UDim2.new(1,0,1,0)
