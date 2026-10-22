@@ -900,6 +900,18 @@ CreateButton(MainPage, "Killbot", function()
     end)
 end)
 
+CreateButton(MainPage, "MLG Gun", function()
+    pcall(function()
+        loadstring(game:HttpGet("https://gist.githubusercontent.com/zupersponge/8c39ed77f2817679294d70aff18d479d/raw/ed5e04b72c4fa77b8bf522d7275abf64ae585416/MLG%2520Gun%2520Script%2520ROBLOX"))()
+    end)
+end)
+
+CreateButton(MainPage, "Dev-uzi Gun", function()
+    pcall(function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/WM3tXMH1"))()
+    end)
+end)
+
 local dragref = nil
 local offset  = Vector2.new(0, 0)
 
