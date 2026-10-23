@@ -355,9 +355,16 @@ KeyboardText.TextYAlignment = Enum.TextYAlignment.Center
 KeyboardText.Text = "⌨"
 RegisterTextLabel(KeyboardText)
 
+local KeyboardBusy = false
 KeyboardButton.MouseButton1Click:Connect(function()
-    pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/sharipovdaniyal81-hash/keyboard/refs/heads/main/Hmmph%20keyboard%3F%3F%3F"))()
+    if KeyboardBusy then return end
+    KeyboardBusy = true
+    task.spawn(function()
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/sharipovdaniyal81-hash/keyboard/refs/heads/main/Hmmph%20keyboard%3F%3F%3F"))()
+        end)
+        task.wait(2)
+        KeyboardBusy = false
     end)
 end)
 
@@ -382,14 +389,30 @@ end
 
 local MainWindowClosed = false
 local MainWindowTweening = false
+local CloseCooldown = false
+
 TopBarClose.Activated:Connect(function()
+    if CloseCooldown then return end
     if MainWindowTweening then return end
+    if not UIMainWindow or not UIMainWindow.Parent then return end
+    if not WindowContent or not WindowContent.Parent then return end
+    if not TopBarClose or not TopBarClose.Parent then return end
+
+    CloseCooldown = true
     MainWindowTweening = true
     MainWindowClosed = not MainWindowClosed
 
+    local function safeTween(obj, info, props)
+        if obj and obj.Parent then
+            pcall(function()
+                TweenService:Create(obj, info, props):Play()
+            end)
+        end
+    end
+
     if MainWindowClosed then
-        R6Button.Visible = false
-        KeyboardButton.Visible = false
+        if R6Button and R6Button.Parent then R6Button.Visible = false end
+        if KeyboardButton and KeyboardButton.Parent then KeyboardButton.Visible = false end
 
         local targetSize = Vector2.new(115, 30)
         local viewport = workspace.CurrentCamera.ViewportSize
@@ -401,49 +424,63 @@ TopBarClose.Activated:Connect(function()
             local safeX = math.clamp(curX, halfX, 1 - halfX)
             local safeY = math.clamp(curY, halfY, 1 - halfY)
             if safeX ~= curX or safeY ~= curY then
-                TweenService:Create(UIMainWindow, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
+                safeTween(UIMainWindow, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
                     Position = UDim2.fromScale(safeX, safeY)
-                }):Play()
+                })
             end
         end
 
-        TweenService:Create(UIMainWindow, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
+        safeTween(UIMainWindow, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
             Size = UDim2.fromOffset(115, 30)
-        }):Play()
-        TweenService:Create(TopBarClose.A, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
-            Rotation = 180
-        }):Play()
-        TweenService:Create(TopBarClose.A.B, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
-            Size = UDim2.new(0, 2, 0, 16)
-        }):Play()
-        TopBarText.Visible = false
-        MiniText.Visible = true
+        })
+        if TopBarClose and TopBarClose:FindFirstChild("A") then
+            safeTween(TopBarClose.A, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
+                Rotation = 180
+            })
+            if TopBarClose.A:FindFirstChild("B") then
+                safeTween(TopBarClose.A.B, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
+                    Size = UDim2.new(0, 2, 0, 16)
+                })
+            end
+        end
+        if TopBarText and TopBarText.Parent then TopBarText.Visible = false end
+        if MiniText and MiniText.Parent then MiniText.Visible = true end
+
         task.delay(0.6, function()
-            WindowContent.Visible = false
+            if WindowContent and WindowContent.Parent then
+                WindowContent.Visible = false
+            end
             MainWindowTweening = false
+            CloseCooldown = false
         end)
     else
-        R6Button.Visible = true
-        KeyboardButton.Visible = true
+        if R6Button and R6Button.Parent then R6Button.Visible = true end
+        if KeyboardButton and KeyboardButton.Parent then KeyboardButton.Visible = true end
 
-        TweenService:Create(UIMainWindow, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
+        safeTween(UIMainWindow, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
             Position = UDim2.new(0.5, 0, 0.5, 0)
-        }):Play()
+        })
 
-        TopBarText.Visible = true
-        MiniText.Visible = false
-        WindowContent.Visible = true
-        TweenService:Create(UIMainWindow, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
+        if TopBarText and TopBarText.Parent then TopBarText.Visible = true end
+        if MiniText and MiniText.Parent then MiniText.Visible = false end
+        if WindowContent and WindowContent.Parent then WindowContent.Visible = true end
+
+        safeTween(UIMainWindow, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
             Size = UDim2.fromOffset(360, 280)
-        }):Play()
-        TweenService:Create(TopBarClose.A, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
-            Rotation = 0
-        }):Play()
-        TweenService:Create(TopBarClose.A.B, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
-            Size = UDim2.new(0, 2, 0, 0)
-        }):Play()
+        })
+        if TopBarClose and TopBarClose:FindFirstChild("A") then
+            safeTween(TopBarClose.A, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
+                Rotation = 0
+            })
+            if TopBarClose.A:FindFirstChild("B") then
+                safeTween(TopBarClose.A.B, TweenInfo.new(0.5, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {
+                    Size = UDim2.new(0, 2, 0, 0)
+                })
+            end
+        end
         task.delay(0.6, function()
             MainWindowTweening = false
+            CloseCooldown = false
         end)
     end
 end)
